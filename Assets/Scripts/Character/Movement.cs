@@ -4,7 +4,7 @@ using System.Security.Claims;
 using Cinemachine;
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class Movement : MonoBehaviour, IInteract
 {
     private CharacterController characterController;
     [SerializeField]
@@ -26,6 +26,7 @@ public class Movement : MonoBehaviour
     public float CinemachineVerticalSpeed = 20f;
     public float CinemachineHorizontalSpeed = 20f;
     private float _rotationVelocity;
+    public Transform handPoint;
 
     // Start is called before the first frame update
     void Start()
@@ -145,5 +146,14 @@ public class Movement : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space)) {
             StartCoroutine(WaitForAnimation("Jump"));
         }
+    }
+
+    public void Interact(GameObject target)
+    {
+        StartCoroutine(WaitForAnimation("Picking up"));
+        target.transform.SetParent(handPoint);
+        target.transform.localPosition = Vector3.zero;
+        target.transform.localRotation = Quaternion.identity;
+        target.GetComponent<Rigidbody>().isKinematic = true;
     }
 }
