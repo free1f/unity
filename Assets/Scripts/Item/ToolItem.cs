@@ -14,9 +14,17 @@ public class ToolItem : BaseItem
     protected override void OnTriggerStay(Collider other)
     {
         if (_interactable == null) return;
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKey(KeyCode.E))
         {
             _interactable.Interact(gameObject);
+        }
+    }
+
+    protected override void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent(out IInteract interactable))
+        {
+            _interactable = null;
         }
     }
 }
