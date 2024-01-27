@@ -976,8 +976,12 @@ GameObject:
   m_Component:
   - component: {fileID: 3913816529175526215}
   - component: {fileID: 3592203551092779719}
-  - component: {fileID: 3592203551092779718}
   - component: {fileID: 8269333296699627934}
+  - component: {fileID: 8049207905402045931}
+  - component: {fileID: 196562020314536190}
+  - component: {fileID: 9110441910262970014}
+  - component: {fileID: 2361168505479023472}
+  - component: {fileID: 8059489270762729321}
   m_Layer: 0
   m_Name: Character
   m_TagString: Player
@@ -1021,30 +1025,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.1, z: 0}
---- !u!114 &3592203551092779718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4403249164897444349}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79f3bb93cac61c5428e386f4fb6810df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  virtualCamera: {fileID: 0}
-  playerCamera: {fileID: 0}
-  CameraTarget: {fileID: 0}
-  Speed: 10
-  RotationSpeed: 2000
-  LockCameraPosition: 0
-  CameraTopLimit: 90
-  CameraBottomLimit: -90
-  CinemachineOverride: 0
-  CinemachineVerticalSpeed: 20
-  CinemachineHorizontalSpeed: 20
-  handPoint: {fileID: 0}
 --- !u!95 &8269333296699627934
 Animator:
   serializedVersion: 4
@@ -1065,6 +1045,82 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8049207905402045931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4403249164897444349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5eac5a398cea52348b0dbe453c566679, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterAnimation: {fileID: 196562020314536190}
+  characterMovement: {fileID: 9110441910262970014}
+  characterCamera: {fileID: 2361168505479023472}
+  characterStat: {fileID: 8059489270762729321}
+  handPoint: {fileID: 8470142185578038096}
+  isDead: 0
+--- !u!114 &196562020314536190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4403249164897444349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04f631442005f544c8ced09dd557ff55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9110441910262970014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4403249164897444349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea41f0a2a051eff45b993f1c2584b1d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 10
+  RotationSpeed: 400
+--- !u!114 &2361168505479023472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4403249164897444349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f54c70cf450be4409cbc10530b81a7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LockCameraPosition: 0
+  CameraTopLimit: 70
+  CameraBottomLimit: -30
+  CinemachineOverride: 0
+  CinemachineVerticalSpeed: 1000
+  CinemachineHorizontalSpeed: 1000
+  CameraTarget: {fileID: 3592203550653983910}
+--- !u!114 &8059489270762729321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4403249164897444349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f2b600d82b6b5f4ea565013d67f0393, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthStat: {fileID: 11400000, guid: 83d13bb2f2042a54abd200e83ded66b6, type: 2}
 --- !u!1 &4662887949438951278
 GameObject:
   m_ObjectHideFlags: 0

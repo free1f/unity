@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ public class CharacterStat : MonoBehaviour
 {
     public HealthStat HealthStat;
     private int _currentHealth;
-    // Start is called before the first frame update
+    public event Action OnDeath;
     void Start()
     {
         _currentHealth = HealthStat.MaxValue;
@@ -19,6 +20,7 @@ public class CharacterStat : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.H)) {
             _currentHealth -= 10;
             HealthStat.Change(_currentHealth);
+            if(_currentHealth == 0) OnDeath?.Invoke();
         }
         if(Input.GetKeyDown(KeyCode.J)) {
             _currentHealth += 10;
