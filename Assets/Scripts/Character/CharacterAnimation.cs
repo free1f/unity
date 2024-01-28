@@ -6,6 +6,7 @@ public class CharacterAnimation : MonoBehaviour
 {
     private Animator animator;
     private bool isAnimationPaused = false;
+    public bool IsAnimationPaused => isAnimationPaused;
     // Start is called before the first frame update
     void Start()
     {

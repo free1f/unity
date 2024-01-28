@@ -16,6 +16,7 @@ public class CharacterHandler : MonoBehaviour, IInteract
     void Update()
     {
         if (isDead) return;
+        if (characterAnimation.IsAnimationPaused) return;
         characterMovement.CalculateInput();
         characterMovement.CalculateMovement();
         characterAnimation.AnimateMotion(characterMovement.Direction.magnitude > 0);
