@@ -5,13 +5,17 @@ using UnityEngine;
 
 public class CharacterStat : MonoBehaviour
 {
-    public HealthStat HealthStat;
+    public VitalityStat HealthStat;
+    public VitalityStat StaminaStat;
     private int _currentHealth;
+    private int _currentStamina;
     public event Action OnDeath;
     void Start()
     {
         _currentHealth = HealthStat.MaxValue;
         HealthStat.Change(_currentHealth);
+        _currentStamina = StaminaStat.MaxValue;
+        StaminaStat.Change(_currentStamina);
     }
 
     // Update is called once per frame
@@ -25,6 +29,15 @@ public class CharacterStat : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.J)) {
             _currentHealth += 10;
             HealthStat.Change(_currentHealth);
+        }
+
+        if(Input.GetKeyDown(KeyCode.B)) {
+            _currentStamina -= 10;
+            StaminaStat.Change(_currentStamina);
+        }
+        if(Input.GetKeyDown(KeyCode.N)) {
+            _currentStamina += 10;
+            StaminaStat.Change(_currentStamina);
         }
     }
 }
