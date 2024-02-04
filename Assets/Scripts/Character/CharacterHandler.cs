@@ -10,6 +10,7 @@ public class CharacterHandler : MonoBehaviour, IInteract
     public CharacterCamera characterCamera;
     public CharacterStat characterStat;
     public Transform handPoint;
+    public InventoryHandler inventoryHandler;
     public bool isDead = false;
 
 
@@ -51,5 +52,6 @@ public class CharacterHandler : MonoBehaviour, IInteract
         target.transform.localPosition = Vector3.zero;
         target.transform.localRotation = Quaternion.identity;
         target.GetComponent<Rigidbody>().isKinematic = true;
+        inventoryHandler.AddItem(target.GetComponent<BaseItem>());
     }
 }

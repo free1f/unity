@@ -3,6 +3,7 @@ using UnityEngine;
 public class ToolItem : BaseItem
 {
     private IInteract _interactable;
+    private bool _isPickedUp;
     protected override void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out IInteract interactable))
@@ -14,8 +15,9 @@ public class ToolItem : BaseItem
     protected override void OnTriggerStay(Collider other)
     {
         if (_interactable == null) return;
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.E) && !_isPickedUp)
         {
+            _isPickedUp = true;
             _interactable.Interact(gameObject);
         }
     }
