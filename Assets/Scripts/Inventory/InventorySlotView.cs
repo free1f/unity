@@ -8,15 +8,19 @@ public class InventorySlotView : MonoBehaviour
     public int slotId;
     public Image image;
 
-    public void UpdateSlot(bool isInUsed)
+    public void UpdateSlot(InventoryState state)
     {
-        if (isInUsed)
+        switch (state)
         {
-            image.color = Color.green;
-        }
-        else
-        {
-            image.color = Color.grey;
+            case InventoryState.Empty:
+                image.color = Color.grey;
+                break;
+            case InventoryState.Full:
+                image.color = Color.cyan;
+                break;
+            case InventoryState.InUse:
+                image.color = Color.green;
+                break;
         }
     }
 }

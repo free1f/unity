@@ -12,16 +12,16 @@ public class InventoryView : MonoBehaviour
         for (int i = 0; i < inventorySlotViews.Length; i++)
         {
             inventorySlotViews[i].slotId = i;
-            inventorySlotViews[i].UpdateSlot(false);
+            inventorySlotViews[i].UpdateSlot(InventoryState.Empty);
         }
     }
 
-    public void UpdateSlotById(int slotId, bool isInUsed)
+    public void UpdateSlotById(int slotId, InventoryState state)
     {
         var foundSlot = Array.Find(inventorySlotViews, slot => slot.slotId == slotId);
         if (foundSlot != null)
         {
-            foundSlot.UpdateSlot(isInUsed);
+            foundSlot.UpdateSlot(state);
         }
     }
 }

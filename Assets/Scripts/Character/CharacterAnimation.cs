@@ -30,20 +30,4 @@ public class CharacterAnimation : MonoBehaviour
         // Animation completed, resume here
         isAnimationPaused = false;
     }
-
-    public void AnimateAction() {
-        if (isAnimationPaused) return;
-        if(Input.GetKeyDown(KeyCode.Alpha1)) {
-            StartCoroutine(WaitForAnimation("Faint"));
-        }
-        if(Input.GetKeyDown(KeyCode.Alpha2)) {
-            StartCoroutine(WaitForAnimation("Head hit"));
-        }
-        if(Input.GetKeyDown(KeyCode.Alpha3)) {
-            StartCoroutine(WaitForAnimation("Picking up"));
-        }
-        if(Input.GetKeyDown(KeyCode.Space)) {
-            StartCoroutine(WaitForAnimation("Jump"));
-        }
-    }
 }

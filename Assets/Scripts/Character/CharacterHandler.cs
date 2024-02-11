@@ -21,7 +21,7 @@ public class CharacterHandler : MonoBehaviour, IInteract
         characterMovement.CalculateInput();
         characterMovement.CalculateMovement();
         characterAnimation.AnimateMotion(characterMovement.Direction.magnitude > 0);
-        characterAnimation.AnimateAction();
+        // characterAnimation.AnimateAction();
     }
 
     void LateUpdate()
@@ -32,11 +32,13 @@ public class CharacterHandler : MonoBehaviour, IInteract
     private void OnEnable()
     {
         characterStat.OnDeath += Death;
+        inventoryHandler.OnEquip += UseTool;
     }
 
     private void OnDisable()
     {
         characterStat.OnDeath -= Death;
+        inventoryHandler.OnEquip -= UseTool;
     }
 
     private void Death()
@@ -48,10 +50,13 @@ public class CharacterHandler : MonoBehaviour, IInteract
     public void Interact(GameObject target)
     {
         StartCoroutine(characterAnimation.WaitForAnimation("Picking up"));
-        target.transform.SetParent(handPoint);
-        target.transform.localPosition = Vector3.zero;
-        target.transform.localRotation = Quaternion.identity;
-        target.GetComponent<Rigidbody>().isKinematic = true;
-        inventoryHandler.AddItem(target.GetComponent<BaseItem>());
+        inventoryHandler.AddItem(target.GetComponent<BaseItem>(), handPoint);
+    }
+
+    private void UseTool(BaseItem item)
+    {
+        // TODO: Use methods from BaseItem to iteract with the world
+        if(item == null) return;
+        Debug.Log("Using " + item.name);
     }
 }
