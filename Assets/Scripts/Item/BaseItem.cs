@@ -8,8 +8,8 @@ public abstract class BaseItem : MonoBehaviour
     public string description;
     public Sprite icon;
     public int value;
-    protected abstract void OnTriggerEnter(Collider other);
-    protected abstract void OnTriggerStay(Collider other);
-    protected abstract void OnTriggerExit(Collider other);
+    // protected abstract void OnTriggerEnter(Collider other);
+    // protected abstract void OnTriggerStay(Collider other);
+    // protected abstract void OnTriggerExit(Collider other);
 
 }
