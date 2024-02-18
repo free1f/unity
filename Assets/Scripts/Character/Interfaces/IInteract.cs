@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public interface IInteract
+namespace Freelf.Character.Interfaces
 {
-    void Interact(GameObject target);
+    public interface IInteract
+    {
+        void Interact(GameObject target);
+    }
 }

@@ -4,12 +4,8 @@ using UnityEngine;
 
 public abstract class BaseItem : MonoBehaviour
 {
-    public string itemName;
-    public string description;
-    public Sprite icon;
-    public int value;
+    public abstract void Info();
     // protected abstract void OnTriggerEnter(Collider other);
     // protected abstract void OnTriggerStay(Collider other);
     // protected abstract void OnTriggerExit(Collider other);
-
 }

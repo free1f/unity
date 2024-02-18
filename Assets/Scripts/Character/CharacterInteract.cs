@@ -55,7 +55,7 @@ public class CharacterInteract : MonoBehaviour
 
         if (toolItems.Count == 0) return;
         toolItems.Sort((a, b) => Vector3.Distance(a.transform.position, body.position).CompareTo(Vector3.Distance(b.transform.position, body.position)));
-        toolItems[0].PickUp();
+        toolItems[0].Pickup();
     }
 
     private void OnDrawGizmos()
