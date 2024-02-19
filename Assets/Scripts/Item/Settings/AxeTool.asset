@@ -12,4 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f43033884c95cc4db8d99d12b48b329, type: 3}
   m_Name: AxeTool
   m_EditorClassIdentifier: 
-  allowedTags: []
+  itemName: Basic Axe
+  description: 
+  icon: {fileID: 0}
+  weight: 0
+  cost: 0
+  isStackable: 0
+  maxStack: 0
+  allowedTags:
+  - tree

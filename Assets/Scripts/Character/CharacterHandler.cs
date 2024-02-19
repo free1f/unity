@@ -2,62 +2,68 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Freelf.Character.Interfaces;
+using Freelf.Item;
+using Freelf.Inventory;
 using UnityEngine;
 
-public class CharacterHandler : MonoBehaviour, IInteract
+namespace Freelf.Character 
 {
-    public CharacterAnimation characterAnimation;
-    public CharacterMovement characterMovement;
-    public CharacterCamera characterCamera;
-    public CharacterStat characterStat;
-    public Transform handPoint;
-    public InventoryHandler inventoryHandler;
-    public bool isDead = false;
 
-
-    void Update()
+    public class CharacterHandler : MonoBehaviour, IInteract
     {
-        if (isDead) return;
-        if (characterAnimation.IsAnimationPaused) return;
-        characterMovement.CalculateInput();
-        characterMovement.CalculateMovement();
-        characterAnimation.AnimateMotion(characterMovement.Direction.magnitude > 0);
-        // characterAnimation.AnimateAction();
-    }
+        public CharacterAnimation characterAnimation;
+        public CharacterMovement characterMovement;
+        public CharacterCamera characterCamera;
+        public CharacterStat characterStat;
+        public Transform handPoint;
+        public InventoryHandler inventoryHandler;
+        public bool isDead = false;
 
-    void LateUpdate()
-    {
-        characterCamera.CalculateCameraRotation();
-    }
 
-    private void OnEnable()
-    {
-        characterStat.OnDeath += Death;
-        inventoryHandler.OnEquip += UseTool;
-    }
+        void Update()
+        {
+            if (isDead) return;
+            if (characterAnimation.IsAnimationPaused) return;
+            characterMovement.CalculateInput();
+            characterMovement.CalculateMovement();
+            characterAnimation.AnimateMotion(characterMovement.Direction.magnitude > 0);
+            // characterAnimation.AnimateAction();
+        }
 
-    private void OnDisable()
-    {
-        characterStat.OnDeath -= Death;
-        inventoryHandler.OnEquip -= UseTool;
-    }
+        void LateUpdate()
+        {
+            characterCamera.CalculateCameraRotation();
+        }
 
-    private void Death()
-    {
-        StartCoroutine(characterAnimation.WaitForAnimation("Faint"));
-        isDead = true;
-    }
+        private void OnEnable()
+        {
+            characterStat.OnDeath += Death;
+            inventoryHandler.OnEquip += UseTool;
+        }
 
-    public void Interact(GameObject target)
-    {
-        StartCoroutine(characterAnimation.WaitForAnimation("Picking up"));
-        inventoryHandler.AddItem(target.GetComponent<BaseItem>(), handPoint);
-    }
+        private void OnDisable()
+        {
+            characterStat.OnDeath -= Death;
+            inventoryHandler.OnEquip -= UseTool;
+        }
 
-    private void UseTool(BaseItem item)
-    {
-        // TODO: Use methods from BaseItem to iteract with the world
-        if(item == null) return;
-        Debug.Log("Using " + item.name);
+        private void Death()
+        {
+            StartCoroutine(characterAnimation.WaitForAnimation("Faint"));
+            isDead = true;
+        }
+
+        public void Interact(GameObject target)
+        {
+            StartCoroutine(characterAnimation.WaitForAnimation("Picking up"));
+            inventoryHandler.AddItem(target.GetComponent<BaseItem>(), handPoint);
+        }
+
+        private void UseTool(BaseItem item)
+        {
+            // TODO: Use methods from BaseItem to iteract with the world
+            if(item == null) return;
+            Debug.Log("Using " + item.name);
+        }
     }
 }

@@ -3,25 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryView : MonoBehaviour
+namespace Freelf.Inventory
 {
-    public InventorySlotView[] inventorySlotViews;
-
-    private void Start()
+    public class InventoryView : MonoBehaviour
     {
-        for (int i = 0; i < inventorySlotViews.Length; i++)
+        public InventorySlotView[] inventorySlotViews;
+
+        private void Start()
         {
-            inventorySlotViews[i].slotId = i;
-            inventorySlotViews[i].UpdateSlot(InventoryState.Empty);
+            for (int i = 0; i < inventorySlotViews.Length; i++)
+            {
+                inventorySlotViews[i].slotId = i;
+                inventorySlotViews[i].UpdateSlot(InventoryState.Empty);
+            }
         }
-    }
 
-    public void UpdateSlotById(int slotId, InventoryState state)
-    {
-        var foundSlot = Array.Find(inventorySlotViews, slot => slot.slotId == slotId);
-        if (foundSlot != null)
+        public void UpdateSlotById(int slotId, InventoryState state)
         {
-            foundSlot.UpdateSlot(state);
+            var foundSlot = Array.Find(inventorySlotViews, slot => slot.slotId == slotId);
+            if (foundSlot != null)
+            {
+                foundSlot.UpdateSlot(state);
+            }
         }
     }
 }

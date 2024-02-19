@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseStat : ScriptableObject
+namespace Freelf.Stats
 {
-    public int MinValue;
-    public int MaxValue;
+    public abstract class BaseStat : ScriptableObject
+    {
+        public int MinValue;
+        public int MaxValue;
+    }
 }
