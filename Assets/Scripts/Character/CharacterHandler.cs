@@ -1,19 +1,24 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Freelf.Character.Interfaces;
+using Freelf.Item.Interfaces;
 using UnityEngine;
 
-public class CharacterHandler : MonoBehaviour, IInteract
+public class CharacterHandler : MonoBehaviour
 {
     public CharacterAnimation characterAnimation;
     public CharacterMovement characterMovement;
     public CharacterCamera characterCamera;
+    public CharacterInteract characterInteract;
     public CharacterStat characterStat;
     public Transform handPoint;
     public InventoryHandler inventoryHandler;
     public bool isDead = false;
-
+    
+    private void FixedUpdate()
+    {
+        characterInteract.WaitToInteract();
+    }
 
     void Update()
     {
@@ -22,7 +27,6 @@ public class CharacterHandler : MonoBehaviour, IInteract
         characterMovement.CalculateInput();
         characterMovement.CalculateMovement();
         characterAnimation.AnimateMotion(characterMovement.Direction.magnitude > 0);
-        // characterAnimation.AnimateAction();
     }
 
     void LateUpdate()
@@ -33,12 +37,14 @@ public class CharacterHandler : MonoBehaviour, IInteract
     private void OnEnable()
     {
         characterStat.OnDeath += Death;
+        characterInteract.OnInteract += Interact;
         inventoryHandler.OnEquip += UseTool;
     }
 
     private void OnDisable()
     {
         characterStat.OnDeath -= Death;
+        characterInteract.OnInteract -= Interact;
         inventoryHandler.OnEquip -= UseTool;
     }
 
@@ -48,10 +54,15 @@ public class CharacterHandler : MonoBehaviour, IInteract
         isDead = true;
     }
 
-    public void Interact(GameObject target)
+    private void Interact(BaseItem item)
     {
         StartCoroutine(characterAnimation.WaitForAnimation("Picking up"));
-        inventoryHandler.AddItem(target.GetComponent<BaseItem>(), handPoint);
+
+        if (item.TryGetComponent<IPickup>(out var itemPickup))
+        {
+            itemPickup.Pickup();
+            inventoryHandler.AddItem(item, handPoint);
+        }
     }
 
     private void UseTool(BaseItem item)

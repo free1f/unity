@@ -474,6 +474,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3483236371294651384, guid: 2106565d8f3fe5b4e99755568307672a, type: 3}
+      propertyPath: Data
+      value: 
+      objectReference: {fileID: 11400000, guid: b90d7043d39be9b4a89e6832049ed8bf, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2106565d8f3fe5b4e99755568307672a, type: 3}
 --- !u!224 &461585839 stripped
@@ -2246,6 +2250,10 @@ PrefabInstance:
       propertyPath: inventoryView
       value: 
       objectReference: {fileID: 184543663}
+    - target: {fileID: 1571197444, guid: 0feccd595d316a14c991a22b118d4be8, type: 3}
+      propertyPath: itemDefaultLayer.m_Bits
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3913816529175526215, guid: 0feccd595d316a14c991a22b118d4be8, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -2294,6 +2302,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character
       objectReference: {fileID: 0}
+    - target: {fileID: 8049207905402045931, guid: 0feccd595d316a14c991a22b118d4be8, type: 3}
+      propertyPath: characterInteract
+      value: 
+      objectReference: {fileID: 345909357}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0feccd595d316a14c991a22b118d4be8, type: 3}
 --- !u!1001 &8951758907156486784
@@ -2351,5 +2363,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Axe Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 3733400492789128102, guid: f8f95fd8a7a59d8499f3fd2cc5b435db, type: 3}
+      propertyPath: Data
+      value: 
+      objectReference: {fileID: 11400000, guid: 1a04f70577d682f42a1c99aa7f907dad, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8f95fd8a7a59d8499f3fd2cc5b435db, type: 3}

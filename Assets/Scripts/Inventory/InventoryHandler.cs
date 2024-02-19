@@ -7,7 +7,8 @@ using System;
 public class InventoryHandler : MonoBehaviour
 {
     private BaseItem[] inventory;
-
+    public int itemDefaultLayer;
+    
     public InventoryView inventoryView;
     public event Action<BaseItem?> OnEquip;
 
@@ -18,6 +19,7 @@ public class InventoryHandler : MonoBehaviour
 
     public void AddItem(BaseItem item, Transform parent)
     {
+        // Check if inventory slots are full or not
         for (int i = 0; i < inventory.Length; i++)
         {
             if (inventory[i] == null) continue;
@@ -25,6 +27,7 @@ public class InventoryHandler : MonoBehaviour
             inventoryView.UpdateSlotById(i, InventoryState.Full);
         }
 
+        // Add the item
         for (int i = 0; i < inventory.Length; i++)
         {
             if (inventory[i] == null)
@@ -32,6 +35,8 @@ public class InventoryHandler : MonoBehaviour
                 inventory[i] = item;
                 inventoryView.UpdateSlotById(i, InventoryState.InUse);
                 item.transform.SetParent(parent);
+                item.gameObject.SetActive(true);
+                item.gameObject.layer = itemDefaultLayer;
                 item.transform.localPosition = Vector3.zero;
                 item.transform.localRotation = Quaternion.identity;
                 item.GetComponent<Rigidbody>().isKinematic = true;
