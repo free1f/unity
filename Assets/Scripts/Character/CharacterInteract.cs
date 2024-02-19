@@ -14,6 +14,7 @@ public class CharacterInteract : MonoBehaviour
     private bool _isInteracting;
     private float _interactingCooldown = 0.5f;
     public event Action<BaseItem> OnInteract;
+    public event Action OnUse;
 
     public void WaitToInteract()
     {
@@ -26,6 +27,10 @@ public class CharacterInteract : MonoBehaviour
         {
             _isInteracting = false;
             _interactingCooldown -= Time.deltaTime;
+        }
+        if (Input.GetKey(KeyCode.Mouse0)) 
+        {
+            OnUse?.Invoke();
         }
 
         if (_isInteracting) TryInteract();

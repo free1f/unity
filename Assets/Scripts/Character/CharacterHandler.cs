@@ -33,19 +33,22 @@ public class CharacterHandler : MonoBehaviour
     {
         characterCamera.CalculateCameraRotation();
     }
-
+    
+    // Unity Methods for Subscriptions
     private void OnEnable()
     {
         characterStat.OnDeath += Death;
         characterInteract.OnInteract += Interact;
-        inventoryHandler.OnEquip += UseTool;
+        characterInteract.OnUse += Use;
+        // inventoryHandler.OnEquip += UseTool;
     }
 
     private void OnDisable()
     {
         characterStat.OnDeath -= Death;
         characterInteract.OnInteract -= Interact;
-        inventoryHandler.OnEquip -= UseTool;
+        characterInteract.OnUse -= Use;
+        // inventoryHandler.OnEquip -= UseTool;
     }
 
     private void Death()
@@ -70,5 +73,13 @@ public class CharacterHandler : MonoBehaviour
         // TODO: Use methods from BaseItem to iteract with the world
         if(item == null) return;
         Debug.Log("Using " + item.name);
+    }
+
+    private void Use()
+    {
+        var item = inventoryHandler.CurrentItemInUse();
+        if(item == null) return; // We can add some logic here to use empty hands
+
+        (item as IUse)?.Use();
     }
 }

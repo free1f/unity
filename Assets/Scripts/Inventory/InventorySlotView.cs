@@ -7,6 +7,7 @@ public class InventorySlotView : MonoBehaviour
 {
     public int slotId;
     public Image image;
+    public InventoryState state;
 
     public void UpdateSlot(InventoryState state)
     {
@@ -22,5 +23,6 @@ public class InventorySlotView : MonoBehaviour
                 image.color = Color.green;
                 break;
         }
+        this.state = state;
     }
 }

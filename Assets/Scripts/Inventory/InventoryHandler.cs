@@ -82,4 +82,11 @@ public class InventoryHandler : MonoBehaviour
         }
         OnEquip?.Invoke(inventory[index]);
     }
+
+    public BaseItem? CurrentItemInUse()
+    {
+        var slotIndex =  Array.FindIndex(inventoryView.inventorySlotViews, slot => slot.state == InventoryState.InUse);
+        if(slotIndex == -1) return null;
+        return inventory[slotIndex];
+    }
 }
