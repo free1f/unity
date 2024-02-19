@@ -13,7 +13,7 @@ public class ToolItem : BaseItem, IUse, IPickup
     {
         IsPickedUp = true;
         gameObject.SetActive(false);
-        Debug.Log("Picked up");
+        Debug.Log($"{Data.itemName} -> Picked up");
     }
 
     public void Use()
