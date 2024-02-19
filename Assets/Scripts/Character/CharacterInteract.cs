@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -12,11 +13,11 @@ public class CharacterInteract : MonoBehaviour
     public LayerMask allowedLayers;
     private bool _isInteracting;
     private float _interactingCooldown = 0.5f;
+    public event Action<BaseItem> OnInteract;
+    public event Action OnUse;
 
-    private void Update()
+    public void WaitToInteract()
     {
-        // _isInteracting = Input.GetKey(KeyCode.E);
-
         if (Input.GetKey(KeyCode.E) && _interactingCooldown <= 0)
         {
             _isInteracting = true;
@@ -27,23 +28,17 @@ public class CharacterInteract : MonoBehaviour
             _isInteracting = false;
             _interactingCooldown -= Time.deltaTime;
         }
+        if (Input.GetKey(KeyCode.Mouse0)) 
+        {
+            OnUse?.Invoke();
+        }
+
+        if (_isInteracting) TryInteract();
     }
 
-    private void FixedUpdate()
+    private void TryInteract()
     {
-        // RaycastHit hit;
-        // if (Physics.SphereCast(body.position, rayRadius, transform.forward, out hit)) 
-        // {
-        //     Debug.Log(hit.collider.name);
-        //     if (hit.collider.TryGetComponent<ToolItem>(out var toolItem))
-        //     {
-        //         toolItem.PickUp();
-        //     }
-        // }
-
-        if (!_isInteracting) return;
-
-        List<ToolItem> toolItems = new (); 
+        List<ToolItem> toolItems = new (); // Esto puede cambiar a un objeto más genérico o abstracto
         var colliders = Physics.OverlapSphere(body.position + rayOffset, rayRadius, allowedLayers);
         foreach (var collider in colliders)
         {
@@ -55,7 +50,9 @@ public class CharacterInteract : MonoBehaviour
 
         if (toolItems.Count == 0) return;
         toolItems.Sort((a, b) => Vector3.Distance(a.transform.position, body.position).CompareTo(Vector3.Distance(b.transform.position, body.position)));
-        toolItems[0].Pickup();
+
+        // toolItems[0].Pickup();
+        OnInteract?.Invoke(toolItems[0]);
     }
 
     private void OnDrawGizmos()
