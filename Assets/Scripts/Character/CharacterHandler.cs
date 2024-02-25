@@ -6,11 +6,14 @@ using UnityEngine;
 
 public class CharacterHandler : MonoBehaviour
 {
+    [Header("Character Subsystems")]
     public CharacterAnimation characterAnimation;
     public CharacterMovement characterMovement;
     public CharacterCamera characterCamera;
     public CharacterInteract characterInteract;
     public CharacterStat characterStat;
+    public CharacterItemAction characterItemAction;
+    [Header("Character Extras")]
     public Transform handPoint;
     public InventoryHandler inventoryHandler;
     public bool isDead = false;
@@ -39,16 +42,16 @@ public class CharacterHandler : MonoBehaviour
     {
         characterStat.OnDeath += Death;
         characterInteract.OnInteract += Interact;
-        characterInteract.OnUse += Use;
-        // inventoryHandler.OnEquip += UseTool;
+        characterItemAction.OnActionItem += Action;
+        inventoryHandler.OnEquip += Equip;
     }
 
     private void OnDisable()
     {
         characterStat.OnDeath -= Death;
         characterInteract.OnInteract -= Interact;
-        characterInteract.OnUse -= Use;
-        // inventoryHandler.OnEquip -= UseTool;
+        characterItemAction.OnActionItem -= Action;
+        inventoryHandler.OnEquip -= Equip;
     }
 
     private void Death()
@@ -59,27 +62,25 @@ public class CharacterHandler : MonoBehaviour
 
     private void Interact(BaseItem item)
     {
-        StartCoroutine(characterAnimation.WaitForAnimation("Picking up"));
-
         if (item.TryGetComponent<IPickup>(out var itemPickup))
         {
+            StartCoroutine(characterAnimation.WaitForAnimation("Picking up"));
             itemPickup.Pickup();
             inventoryHandler.AddItem(item, handPoint);
         }
     }
 
-    private void UseTool(BaseItem item)
+    private void Equip(BaseItem item)
     {
         // TODO: Use methods from BaseItem to iteract with the world
-        if(item == null) return;
-        Debug.Log("Using " + item.name);
+        characterItemAction.Attach(item);
+        
     }
 
-    private void Use()
+    private void Action(BaseItem item)
     {
-        var item = inventoryHandler.CurrentItemInUse();
-        if(item == null) return; // We can add some logic here to use empty hands
-
-        (item as IUse)?.Use();
+        Debug.Log("Action");
+        if(item == null) return;
+        StartCoroutine(characterAnimation.WaitForAnimation(item.Data.actionData.animationName));
     }
 }

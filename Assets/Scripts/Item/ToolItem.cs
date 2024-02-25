@@ -6,7 +6,8 @@ public class ToolItem : BaseItem, IUse, IPickup
     // private IInteract _interactable;
     public bool IsPickedUp{ get; private set; }
     public bool IsInUse { get; private set; }
-    public ToolDataItem Data;
+    [field: SerializeField]
+    public override DataItem Data { get; protected set;}
     public float rayRadius = 1f;
 
     public void Pickup()
@@ -19,9 +20,11 @@ public class ToolItem : BaseItem, IUse, IPickup
     public void Use()
     {
         var colliders = Physics.OverlapSphere(transform.position, rayRadius);
+        var toolData = (ToolDataItem) Data;
+        if(toolData == null) return;
         foreach (var collider in colliders)
         {
-            foreach (var tag in Data.allowedTags)
+            foreach (var tag in toolData.allowedTags)
             {
                 if (collider.CompareTag(tag))
                 {
