@@ -19,4 +19,8 @@ MonoBehaviour:
   cost: 0
   isStackable: 0
   maxStack: 0
+  actionData:
+    animationName: Head hit
+    sound: {fileID: 0}
+    message: 
   allowedTags: []
