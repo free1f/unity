@@ -9,18 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f43033884c95cc4db8d99d12b48b329, type: 3}
-  m_Name: ShovelTool
+  m_Script: {fileID: 11500000, guid: e9ee53fb4dbd8bb4c846d44fdc4e0bab, type: 3}
+  m_Name: RockLvl1
   m_EditorClassIdentifier: 
-  itemName: Basic Shovel
+  elementName: Rock
   description: 
-  icon: {fileID: 0}
-  weight: 0
-  cost: 0
-  isStackable: 0
-  maxStack: 0
-  actionData:
-    animationName: Jump
-    sound: {fileID: 0}
-    message: 
-  allowedTags: []
+  level: 1
+  elementType: {fileID: 11400000, guid: 64aa4766a861e794c851240a3dfe5204, type: 2}

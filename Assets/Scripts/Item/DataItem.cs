@@ -11,5 +11,12 @@ public class DataItem : ScriptableObject
     public float cost;
     public bool isStackable;
     public int maxStack;
+    public ItemActionData actionData;
 
+}
+[System.Serializable]
+public struct ItemActionData {
+    public string animationName;
+    public AudioClip sound;
+    public string message;
 }

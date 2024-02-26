@@ -14,7 +14,8 @@ public class CharacterInteract : MonoBehaviour
     private bool _isInteracting;
     private float _interactingCooldown = 0.5f;
     public event Action<BaseItem> OnInteract;
-    public event Action OnUse;
+    
+    private readonly List<BaseItem> foundItems = new List<BaseItem>(); // Esto puede cambiar a un objeto más genérico o abstracto
 
     public void WaitToInteract()
     {
@@ -28,31 +29,27 @@ public class CharacterInteract : MonoBehaviour
             _isInteracting = false;
             _interactingCooldown -= Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.Mouse0)) 
-        {
-            OnUse?.Invoke();
-        }
 
         if (_isInteracting) TryInteract();
     }
 
     private void TryInteract()
     {
-        List<ToolItem> toolItems = new (); // Esto puede cambiar a un objeto más genérico o abstracto
         var colliders = Physics.OverlapSphere(body.position + rayOffset, rayRadius, allowedLayers);
         foreach (var collider in colliders)
         {
-            if (collider.TryGetComponent<ToolItem>(out var toolItem))
+            if (collider.TryGetComponent<BaseItem>(out var item))
             {
-                toolItems.Add(toolItem);
+                foundItems.Add(item);
             }
         }
 
-        if (toolItems.Count == 0) return;
-        toolItems.Sort((a, b) => Vector3.Distance(a.transform.position, body.position).CompareTo(Vector3.Distance(b.transform.position, body.position)));
+        if (foundItems.Count == 0) return;
+        foundItems.Sort((a, b) => Vector3.Distance(a.transform.position, body.position).CompareTo(Vector3.Distance(b.transform.position, body.position)));
 
         // toolItems[0].Pickup();
-        OnInteract?.Invoke(toolItems[0]);
+        OnInteract?.Invoke(foundItems[0]);
+        foundItems.Clear();
     }
 
     private void OnDrawGizmos()

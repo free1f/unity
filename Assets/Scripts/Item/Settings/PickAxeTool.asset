@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f43033884c95cc4db8d99d12b48b329, type: 3}
-  m_Name: AxeTool
+  m_Name: PickAxeTool
   m_EditorClassIdentifier: 
-  itemName: Basic Axe
+  itemName: Basic Pickaxe
   description: 
   icon: {fileID: 0}
   weight: 0
@@ -20,12 +20,12 @@ MonoBehaviour:
   isStackable: 0
   maxStack: 0
   actionData:
-    animationName: Head hit
+    animationName: Jump
     sound: {fileID: 0}
     message: 
   compatibleElements:
-  - {fileID: 11400000, guid: 64aa4766a861e794c851240a3dfe5204, type: 2}
+  - {fileID: 0}
   allowedLayers:
     serializedVersion: 2
-    m_Bits: 64
-  level: 1
+    m_Bits: 0
+  level: 0

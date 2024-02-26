@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9ee53fb4dbd8bb4c846d44fdc4e0bab, type: 3}
+  m_Name: TreeLvl1
+  m_EditorClassIdentifier: 
+  elementName: Tree
+  description: This is my first tree
+  level: 1
+  elementType: {fileID: 11400000, guid: 64aa4766a861e794c851240a3dfe5204, type: 2}

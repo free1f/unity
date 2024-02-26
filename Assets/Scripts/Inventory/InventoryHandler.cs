@@ -39,7 +39,7 @@ public class InventoryHandler : MonoBehaviour
                 item.gameObject.layer = itemDefaultLayer;
                 item.transform.localPosition = Vector3.zero;
                 item.transform.localRotation = Quaternion.identity;
-                item.GetComponent<Rigidbody>().isKinematic = true;
+                // item.GetComponent<Rigidbody>().isKinematic = true;
                 break;
             }
         }
