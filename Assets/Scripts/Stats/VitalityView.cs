@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class VitalityView : MonoBehaviour
+namespace Freelf.Stats
 {
-    public VitalityStat vitalityStat;
-    public Slider Slider;
-    
-    void Awake()
+    public class VitalityView : MonoBehaviour
     {
-        // Subscribtion to vitalityStat
-        vitalityStat.OnChanged += ChangeSlider;
-    }
+        public VitalityStat vitalityStat;
+        public Slider Slider;
+        
+        void Awake()
+        {
+            // Subscribtion to vitalityStat
+            vitalityStat.OnChanged += ChangeSlider;
+        }
 
-    private void ChangeSlider(int value)
-    {
-        Slider.value = (float)value/(float)vitalityStat.MaxValue;
+        private void ChangeSlider(int value)
+        {
+            Slider.value = (float)value/(float)vitalityStat.MaxValue;
+        }
     }
 }

@@ -20,7 +20,7 @@ MonoBehaviour:
   isStackable: 0
   maxStack: 0
   actionData:
-    animationName: Head hit
+    animationName: Cut
     sound: {fileID: 0}
     message: 
   compatibleElements:

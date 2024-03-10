@@ -2,21 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DataItem : ScriptableObject
+namespace Freelf.Item
 {
-    public string itemName;
-    public string description;
-    public Sprite icon;
-    public float weight;
-    public float cost;
-    public bool isStackable;
-    public int maxStack;
-    public ItemActionData actionData;
+    public class DataItem : ScriptableObject
+    {
+        public string itemName;
+        public string description;
+        public Sprite icon;
+        public float weight;
+        public float cost;
+        public bool isStackable;
+        public int maxStack;
+        public ItemActionData actionData;
 
-}
-[System.Serializable]
-public struct ItemActionData {
-    public string animationName;
-    public AudioClip sound;
-    public string message;
+    }
+    [System.Serializable]
+    public struct ItemActionData {
+        public string animationName;
+        public AudioClip sound;
+        public string message;
+    }
 }
