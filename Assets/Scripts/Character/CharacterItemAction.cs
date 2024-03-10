@@ -3,27 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 using Freelf.Item.Interfaces;
 using Unity.VisualScripting;
+using Freelf.Item;
 using UnityEngine;
 
-public class CharacterItemAction : MonoBehaviour
+namespace Freelf.Character
 {
-    private BaseItem _attachedItem;
-    public event Action<BaseItem, Action> OnActionItem;
-    public void Attach(BaseItem item)
+    public class CharacterItemAction : MonoBehaviour
     {
-        _attachedItem = item;
-    }
-
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0)) 
+        private BaseItem _attachedItem;
+        public event Action<BaseItem, Action> OnActionItem;
+        public void Attach(BaseItem item)
         {
-            if(_attachedItem is null) return; // TODO: Send another event request later
-            if(_attachedItem is IUse useItem)
+            _attachedItem = item;
+        }
+
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(0)) 
             {
-                if(useItem.IsInUse) return;
-                // useItem.Use();
-                OnActionItem?.Invoke(_attachedItem, useItem.Use);
+                if(_attachedItem is null) return; // TODO: Send another event request later
+                if(_attachedItem is IUse useItem)
+                {
+                    if(useItem.IsInUse) return;
+                    // useItem.Use();
+                    OnActionItem?.Invoke(_attachedItem, useItem.Use);
+                }
             }
         }
     }

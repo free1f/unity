@@ -16,3 +16,7 @@ MonoBehaviour:
   description: This is my first tree
   level: 1
   elementType: {fileID: 11400000, guid: 64aa4766a861e794c851240a3dfe5204, type: 2}
+  resources:
+  - {fileID: 688552121229662932, guid: 452e67a066e372e48b7c1af52d93e5dd, type: 3}
+  - {fileID: 6025390303020160, guid: a7fa392dc57e99c409ef8da1ee58bf0e, type: 3}
+  maxResourceRate: 20
