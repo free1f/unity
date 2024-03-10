@@ -12,6 +12,7 @@ public class ToolItem : BaseItem, IUse, IPickup
     [field: SerializeField]
     public override DataItem Data { get; protected set;}
     public float rayRadius = 1f;
+    public Vector3 rayOffset = Vector3.zero;
 
     public void Pickup()
     {
@@ -24,7 +25,7 @@ public class ToolItem : BaseItem, IUse, IPickup
     {
         Debug.Log($"{Data.itemName} -> Used");
         var toolData = (ToolDataItem) Data;
-        var colliders = Physics.OverlapSphere(transform.position, rayRadius, toolData.allowedLayers);
+        var colliders = Physics.OverlapSphere(transform.position + rayOffset, rayRadius, toolData.allowedLayers);
         if(toolData == null) return;
         foreach (var collider in colliders)
         {
@@ -43,7 +44,7 @@ public class ToolItem : BaseItem, IUse, IPickup
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, rayRadius);
+        Gizmos.DrawWireSphere(transform.position + rayOffset, rayRadius);
     }
 
     public override void Info()
