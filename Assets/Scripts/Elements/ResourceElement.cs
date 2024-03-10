@@ -13,6 +13,13 @@ namespace Freelf.Elements
 
         public void Gather()
         {
+            Debug.Log($"Gathering {Data.elementName}");
+            int resourceRate = Random.Range(1, Data.maxResourceRate);
+            for (int i = 0; i < resourceRate; i++)
+            {
+                int randomResource = Random.Range(0, Data.resources.Length);
+                Instantiate(Data.resources[randomResource], transform.position, Quaternion.identity);
+            }
             Destroy(gameObject);
         }
     }

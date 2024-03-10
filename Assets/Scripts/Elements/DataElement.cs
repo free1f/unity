@@ -11,5 +11,7 @@ namespace Freelf.Elements
         public string description;
         public int level;
         public ElementType elementType;
+        public GameObject[] resources;
+        public int maxResourceRate;
     }
 }

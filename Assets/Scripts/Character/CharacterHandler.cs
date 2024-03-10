@@ -77,10 +77,10 @@ public class CharacterHandler : MonoBehaviour
         
     }
 
-    private void Action(BaseItem item)
+    private void Action(BaseItem item, Action actionCallback)
     {
         Debug.Log("Action");
         if(item == null) return;
-        StartCoroutine(characterAnimation.WaitForAnimation(item.Data.actionData.animationName));
+        StartCoroutine(characterAnimation.WaitForAnimation(item.Data.actionData.animationName, actionCallback));
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine;
 public class CharacterItemAction : MonoBehaviour
 {
     private BaseItem _attachedItem;
-    public event Action<BaseItem> OnActionItem;
+    public event Action<BaseItem, Action> OnActionItem;
     public void Attach(BaseItem item)
     {
         _attachedItem = item;
@@ -22,9 +22,9 @@ public class CharacterItemAction : MonoBehaviour
             if(_attachedItem is IUse useItem)
             {
                 if(useItem.IsInUse) return;
-                useItem.Use();
+                // useItem.Use();
+                OnActionItem?.Invoke(_attachedItem, useItem.Use);
             }
-            OnActionItem?.Invoke(_attachedItem);
         }
     }
 }
