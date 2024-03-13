@@ -1,4 +1,5 @@
 using System;
+using Freelf.Audio;
 using Freelf.Elements;
 using Freelf.Elements.Interfaces;
 using Freelf.Item.Interfaces;
@@ -15,6 +16,7 @@ namespace Freelf.Item
         public override DataItem Data { get; protected set;}
         public float rayRadius = 1f;
         public Vector3 rayOffset = Vector3.zero;
+        
 
         public void Pickup()
         {
@@ -37,6 +39,7 @@ namespace Freelf.Item
                         var matchedType = Array.Find(toolData.compatibleElements, x => x == element.Data.elementType);
                         if (matchedType == null) continue;
                         (element as IGather)?.Gather();
+                        AudioHandler.instance.Play(toolData.actionData.sound, SoundCategory.SFX);
                     }
                 }
                 Debug.Log($"Using {Data.itemName} on {collider.name}");
