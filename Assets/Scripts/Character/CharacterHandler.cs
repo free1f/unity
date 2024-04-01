@@ -13,6 +13,7 @@ namespace Freelf.Character
         [Header("Character Subsystems")]
         public CharacterAnimation characterAnimation;
         public CharacterMovement characterMovement;
+        public CharacterJump characterJump;
         public CharacterCamera characterCamera;
         public CharacterInteract characterInteract;
         public CharacterStat characterStat;
@@ -33,6 +34,9 @@ namespace Freelf.Character
             if (characterAnimation.IsAnimationPaused) return;
             characterMovement.CalculateInput();
             characterMovement.CalculateMovement();
+            characterJump.CheckGround();
+            characterJump.CalculateInput();
+            characterJump.CalculateJump();
             characterAnimation.AnimateMotion(characterMovement.Direction.magnitude > 0);
         }
 
