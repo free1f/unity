@@ -20,9 +20,9 @@ namespace Freelf.Character
         
         private readonly List<BaseItem> foundItems = new List<BaseItem>(); // Esto puede cambiar a un objeto más genérico o abstracto
 
-        public void WaitToInteract()
+        public void WaitToInteract(PressedInput input)
         {
-            if (Input.GetKey(KeyCode.E) && _interactingCooldown <= 0)
+            if (input.IsHold && _interactingCooldown <= 0)
             {
                 _isInteracting = true;
                 _interactingCooldown = 0.5f;

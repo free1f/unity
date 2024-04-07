@@ -14,6 +14,7 @@ namespace Freelf.Character
         public CharacterAnimation characterAnimation;
         public CharacterMovement characterMovement;
         public CharacterJump characterJump;
+        public CharacterInput characterInput;
         public CharacterCamera characterCamera;
         public CharacterInteract characterInteract;
         public CharacterStat characterStat;
@@ -21,22 +22,24 @@ namespace Freelf.Character
         [Header("Character Extras")]
         public Transform handPoint;
         public InventoryHandler inventoryHandler;
+
         public bool isDead = false;
         
         private void FixedUpdate()
         {
-            characterInteract.WaitToInteract();
+            characterInteract.WaitToInteract(characterInput.GetInteractInput());
         }
 
         void Update()
         {
             if (isDead) return;
             if (characterAnimation.IsAnimationPaused) return;
-            characterMovement.CalculateInput();
+            characterMovement.PerformMovement(characterInput.GetMovementInput());
             characterMovement.CalculateMovement();
             characterJump.CheckGround();
-            characterJump.CalculateInput();
             characterJump.CalculateJump();
+            characterJump.PerformJump(characterInput.GetJumpInput());
+            characterItemAction.Interact(characterInput.GetUseItemInput());
             characterAnimation.AnimateMotion(characterMovement.Direction.magnitude > 0);
         }
 

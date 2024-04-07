@@ -25,10 +25,10 @@ namespace Freelf.Character
             playerCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         }
 
-        public void CalculateInput()
+        public void PerformMovement(AxisInput input)
         {
             // No optimal way: var direction = new Vector3(Input.GetAxis("Horizontal"), Vector3.zero.y, Input.GetAxis("Vertical"));
-            _direction.Set(Input.GetAxis("Horizontal"), Vector3.zero.y, Input.GetAxis("Vertical"));
+            _direction.Set(input.Horizontal, Vector3.zero.y, input.Vertical);
         }
 
         public void CalculateMovement()

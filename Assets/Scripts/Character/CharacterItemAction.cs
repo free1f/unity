@@ -17,9 +17,9 @@ namespace Freelf.Character
             _attachedItem = item;
         }
 
-        private void Update()
+        public void Interact(PressedInput input)
         {
-            if (Input.GetMouseButtonDown(0)) 
+            if (input.IsPressed)
             {
                 if(_attachedItem is null) return; // TODO: Send another event request later
                 if(_attachedItem is IUse useItem)
