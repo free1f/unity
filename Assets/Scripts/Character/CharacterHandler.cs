@@ -5,12 +5,14 @@ using Freelf.Item.Interfaces;
 using Freelf.Inventory;
 using Freelf.Item;
 using UnityEngine;
+using Freelf.Character.Interfaces;
 
 namespace Freelf.Character
 {
     public class CharacterHandler : MonoBehaviour
     {
         [Header("Character Subsystems")]
+        private List<CharacterComponent> characterComponents;
         public CharacterAnimation characterAnimation;
         public CharacterMovement characterMovement;
         public CharacterJump characterJump;
@@ -24,6 +26,15 @@ namespace Freelf.Character
         public InventoryHandler inventoryHandler;
 
         public bool isDead = false;
+
+        void Awake()
+        {
+            characterComponents.AddRange(GetComponents<CharacterComponent>());
+            foreach (var component in characterComponents)
+            {
+                component.Init();
+            }
+        }
         
         private void FixedUpdate()
         {

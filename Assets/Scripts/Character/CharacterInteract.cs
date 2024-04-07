@@ -1,13 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using Freelf.Character.Interfaces;
 using Freelf.Item;
 using UnityEngine;
 
 namespace Freelf.Character
 {
-    public class CharacterInteract : MonoBehaviour
+    public class CharacterInteract : CharacterComponent
     {
         public float rayDistance = 2f;
         public float rayRadius = 0.5f;
@@ -19,6 +19,7 @@ namespace Freelf.Character
         public event Action<BaseItem> OnInteract;
         
         private readonly List<BaseItem> foundItems = new List<BaseItem>(); // Esto puede cambiar a un objeto más genérico o abstracto
+        public override void Init() {}
 
         public void WaitToInteract(PressedInput input)
         {

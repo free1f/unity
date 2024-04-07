@@ -5,10 +5,11 @@ using Freelf.Item.Interfaces;
 using Unity.VisualScripting;
 using Freelf.Item;
 using UnityEngine;
+using Freelf.Character.Interfaces;
 
 namespace Freelf.Character
 {
-    public class CharacterItemAction : MonoBehaviour
+    public class CharacterItemAction : CharacterComponent
     {
         private BaseItem _attachedItem;
         public event Action<BaseItem, Action> OnActionItem;
@@ -16,6 +17,8 @@ namespace Freelf.Character
         {
             _attachedItem = item;
         }
+
+        public override void Init() {}
 
         public void Interact(PressedInput input)
         {

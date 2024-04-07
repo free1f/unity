@@ -1,17 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Freelf.Character.Interfaces;
 using UnityEngine;
 
 namespace Freelf.Character
 {
-    public class CharacterAnimation : MonoBehaviour
+    public class CharacterAnimation : CharacterComponent
     {
         private Animator animator;
         private bool isAnimationPaused = false;
         public bool IsAnimationPaused => isAnimationPaused;
-        // Start is called before the first frame update
-        void Start()
+        public override void Init()
         {
             animator = gameObject.GetComponent<Animator>();
         }

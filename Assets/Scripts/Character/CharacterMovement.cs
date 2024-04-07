@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Claims;
 using Cinemachine;
+using Freelf.Character.Interfaces;
 using UnityEngine;
 
 namespace Freelf.Character
 {
-    public class CharacterMovement : MonoBehaviour
+    public class CharacterMovement : CharacterComponent
     {
         private CharacterController characterController;
         public float Speed;
@@ -16,8 +17,7 @@ namespace Freelf.Character
         private Camera playerCamera;
 
         private float _rotationVelocity;
-
-        void Start()
+        public override void Init()
         {
             characterController = gameObject.GetComponent<CharacterController>();
             Cursor.visible = false;

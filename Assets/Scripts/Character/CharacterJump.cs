@@ -1,8 +1,9 @@
+using Freelf.Character.Interfaces;
 using UnityEngine;
 
 namespace Freelf.Character
 {
-    public class CharacterJump : MonoBehaviour
+    public class CharacterJump : CharacterComponent
     {
         private CharacterController _characterController;
 
@@ -13,8 +14,7 @@ namespace Freelf.Character
         private bool _isJumping;
         private float _jumpPressTimeCounter;
         private Vector3 _jumpVelocity;
-
-        private void Start()
+        public override void Init()
         {
             _characterController = GetComponent<CharacterController>();
             _jumpPressTimeCounter = MaxJumpPressTime;
