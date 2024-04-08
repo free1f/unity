@@ -1,8 +1,9 @@
 using UnityEngine;
+using Freelf.Character.Interfaces;
 
 namespace Freelf.Character
 {
-    public class CharacterCamera : MonoBehaviour
+    public class CharacterCamera : CharacterComponent
     {
         private float CinemachinePitch;
         private float CinemachineYaw;
@@ -13,8 +14,7 @@ namespace Freelf.Character
         public float CinemachineVerticalSpeed = 20f;
         public float CinemachineHorizontalSpeed = 20f;
         public GameObject CameraTarget;
-
-        void Start()
+        public override void Init()
         {
             CinemachineYaw = CameraTarget.transform.rotation.eulerAngles.y;
             Cursor.visible = false;

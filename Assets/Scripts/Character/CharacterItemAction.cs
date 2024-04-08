@@ -5,30 +5,45 @@ using Freelf.Item.Interfaces;
 using Unity.VisualScripting;
 using Freelf.Item;
 using UnityEngine;
+using Freelf.Character.Interfaces;
+using Freelf.Character.DataTransfer;
 
 namespace Freelf.Character
 {
-    public class CharacterItemAction : MonoBehaviour
+    public class CharacterItemAction : CharacterComponent, ITick, IAttached<UseItemData>, IAttached<BaseItem>
     {
         private BaseItem _attachedItem;
-        public event Action<BaseItem, Action> OnActionItem;
-        public void Attach(BaseItem item)
-        {
-            _attachedItem = item;
-        }
+        private UseItemData Data;
 
-        private void Update()
+        public override void Init() {}
+
+        private void Interact(PressedInput input)
         {
-            if (Input.GetMouseButtonDown(0)) 
+            if (input.IsPressed)
             {
                 if(_attachedItem is null) return; // TODO: Send another event request later
                 if(_attachedItem is IUse useItem)
                 {
                     if(useItem.IsInUse) return;
                     // useItem.Use();
-                    OnActionItem?.Invoke(_attachedItem, useItem.Use);
+                    Data.OnActionItem?.Invoke(_attachedItem, useItem.Use);
                 }
             }
+        }
+
+        public void Tick()
+        {
+            Interact(Data.input);
+        }
+
+        public void Attached(ref UseItemData value)
+        {
+            Data = value;
+        }
+
+        public void Attached(ref BaseItem value)
+        {
+            _attachedItem = value;
         }
     }
 }
