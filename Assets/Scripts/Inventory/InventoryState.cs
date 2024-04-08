@@ -1,6 +1,9 @@
-public enum InventoryState
+namespace Freelf.Inventory
 {
-    Empty,
-    Full,
-    InUse
+    public enum InventoryState
+    {
+        Empty,
+        Full,
+        InUse
+    }
 }

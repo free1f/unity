@@ -3,28 +3,47 @@ using System.Collections;
 using System.Collections.Generic;
 using Freelf.Item.Interfaces;
 using Unity.VisualScripting;
+using Freelf.Item;
 using UnityEngine;
+using Freelf.Character.Interfaces;
+using Freelf.Character.DataTransfer;
 
-public class CharacterItemAction : MonoBehaviour
+namespace Freelf.Character
 {
-    private BaseItem _attachedItem;
-    public event Action<BaseItem, Action> OnActionItem;
-    public void Attach(BaseItem item)
+    public class CharacterItemAction : CharacterComponent, ITick, IAttached<UseItemData>, IAttached<BaseItem>
     {
-        _attachedItem = item;
-    }
+        private BaseItem _attachedItem;
+        private UseItemData Data;
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0)) 
+        public override void Init() {}
+
+        private void Interact(PressedInput input)
         {
-            if(_attachedItem is null) return; // TODO: Send another event request later
-            if(_attachedItem is IUse useItem)
+            if (input.IsPressed)
             {
-                if(useItem.IsInUse) return;
-                // useItem.Use();
-                OnActionItem?.Invoke(_attachedItem, useItem.Use);
+                if(_attachedItem is null) return; // TODO: Send another event request later
+                if(_attachedItem is IUse useItem)
+                {
+                    if(useItem.IsInUse) return;
+                    // useItem.Use();
+                    Data.OnActionItem?.Invoke(_attachedItem, useItem.Use);
+                }
             }
+        }
+
+        public void Tick()
+        {
+            Interact(Data.input);
+        }
+
+        public void Attached(ref UseItemData value)
+        {
+            Data = value;
+        }
+
+        public void Attached(ref BaseItem value)
+        {
+            _attachedItem = value;
         }
     }
 }

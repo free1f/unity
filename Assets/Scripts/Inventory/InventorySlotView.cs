@@ -3,26 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventorySlotView : MonoBehaviour
+namespace Freelf.Inventory
 {
-    public int slotId;
-    public Image image;
-    public InventoryState state;
-
-    public void UpdateSlot(InventoryState state)
+    public class InventorySlotView : MonoBehaviour
     {
-        switch (state)
+        public int slotId;
+        public Image image;
+        public InventoryState state;
+
+        public void UpdateSlot(InventoryState state)
         {
-            case InventoryState.Empty:
-                image.color = Color.grey;
-                break;
-            case InventoryState.Full:
-                image.color = Color.cyan;
-                break;
-            case InventoryState.InUse:
-                image.color = Color.green;
-                break;
+            switch (state)
+            {
+                case InventoryState.Empty:
+                    image.color = Color.grey;
+                    break;
+                case InventoryState.Full:
+                    image.color = Color.cyan;
+                    break;
+                case InventoryState.InUse:
+                    image.color = Color.green;
+                    break;
+            }
+            this.state = state;
         }
-        this.state = state;
     }
 }
