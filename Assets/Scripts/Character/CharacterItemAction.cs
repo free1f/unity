@@ -6,21 +6,18 @@ using Unity.VisualScripting;
 using Freelf.Item;
 using UnityEngine;
 using Freelf.Character.Interfaces;
+using Freelf.Character.DataTransfer;
 
 namespace Freelf.Character
 {
-    public class CharacterItemAction : CharacterComponent
+    public class CharacterItemAction : CharacterComponent, ITick, IAttached<UseItemData>, IAttached<BaseItem>
     {
         private BaseItem _attachedItem;
-        public event Action<BaseItem, Action> OnActionItem;
-        public void Attach(BaseItem item)
-        {
-            _attachedItem = item;
-        }
+        private UseItemData Data;
 
         public override void Init() {}
 
-        public void Interact(PressedInput input)
+        private void Interact(PressedInput input)
         {
             if (input.IsPressed)
             {
@@ -29,9 +26,24 @@ namespace Freelf.Character
                 {
                     if(useItem.IsInUse) return;
                     // useItem.Use();
-                    OnActionItem?.Invoke(_attachedItem, useItem.Use);
+                    Data.OnActionItem?.Invoke(_attachedItem, useItem.Use);
                 }
             }
+        }
+
+        public void Tick()
+        {
+            Interact(Data.input);
+        }
+
+        public void Attached(ref UseItemData value)
+        {
+            Data = value;
+        }
+
+        public void Attached(ref BaseItem value)
+        {
+            _attachedItem = value;
         }
     }
 }

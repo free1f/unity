@@ -1,9 +1,10 @@
+using Freelf.Character.DataTransfer;
 using Freelf.Character.Interfaces;
 using UnityEngine;
 
 namespace Freelf.Character
 {
-    public class CharacterJump : CharacterComponent
+    public class CharacterJump : CharacterComponent, ITick, IAttached<JumpData>
     {
         private CharacterController _characterController;
 
@@ -14,13 +15,14 @@ namespace Freelf.Character
         private bool _isJumping;
         private float _jumpPressTimeCounter;
         private Vector3 _jumpVelocity;
+        private JumpData Data;
         public override void Init()
         {
             _characterController = GetComponent<CharacterController>();
             _jumpPressTimeCounter = MaxJumpPressTime;
         }
 
-        public void CheckGround() 
+        private void CheckGround() 
         {
             if (_characterController.isGrounded && _jumpVelocity.y < 0)
             {
@@ -28,13 +30,13 @@ namespace Freelf.Character
             }
         }
 
-        public void CalculateJump()
+        private void CalculateJump()
         {
             _jumpVelocity.y += Gravity * Time.deltaTime;
             _characterController.Move(_jumpVelocity * Time.deltaTime);
         }
 
-        public void PerformJump(PressedInput input)
+        private void PerformJump(PressedInput input)
         {
             if (_characterController.isGrounded && input.IsPressed)
             {
@@ -60,6 +62,18 @@ namespace Freelf.Character
             {
                 _isJumping = false;
             }
+        }
+
+        public void Tick()
+        {
+            CheckGround();
+            CalculateJump();
+            PerformJump(Data.input);
+        }
+
+        public void Attached(ref JumpData value)
+        {
+            Data = value;
         }
     }
 }

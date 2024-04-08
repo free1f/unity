@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Freelf.Character.DataTransfer;
 using UnityEngine;
 
 namespace Freelf.Character
@@ -8,57 +9,32 @@ namespace Freelf.Character
     {
         public KeyCode JumpKey = KeyCode.Space;
         public KeyCode InteractKey = KeyCode.E;
-        private PressedInput _jumpInput;
-        private PressedInput _interactInput;
-        private PressedInput _useItemInput;
-        private AxisInput _movementInput;
 
-        public PressedInput GetJumpInput()
+        public void GetJumpInput(ref JumpData data)
         {
-            _jumpInput.IsHold = Input.GetKey(JumpKey);
-            _jumpInput.IsPressed = Input.GetKeyDown(JumpKey);
-            _jumpInput.IsReleased = Input.GetKeyUp(JumpKey);
-
-            return _jumpInput;
+            data.input.IsHold = Input.GetKey(JumpKey);
+            data.input.IsPressed = Input.GetKeyDown(JumpKey);
+            data.input.IsReleased = Input.GetKeyUp(JumpKey);
         }
 
-        public PressedInput GetInteractInput()
+        public void GetInteractInput(ref InteractData data)
         {
-            _interactInput.IsHold = Input.GetKey(InteractKey);
-            _interactInput.IsPressed = Input.GetKeyDown(InteractKey);
-            _interactInput.IsReleased = Input.GetKeyUp(InteractKey);
-
-            return _interactInput;
+            data.input.IsHold = Input.GetKey(InteractKey);
+            data.input.IsPressed = Input.GetKeyDown(InteractKey);
+            data.input.IsReleased = Input.GetKeyUp(InteractKey);
         }
 
-        public PressedInput GetUseItemInput()
+        public void GetUseItemInput(ref UseItemData data)
         {
-            _useItemInput.IsHold = Input.GetMouseButton(0);
-            _useItemInput.IsPressed = Input.GetMouseButtonDown(0);
-            _useItemInput.IsReleased = Input.GetMouseButtonUp(0);
-
-            return _useItemInput;
+            data.input.IsHold = Input.GetMouseButton(0);
+            data.input.IsPressed = Input.GetMouseButtonDown(0);
+            data.input.IsReleased = Input.GetMouseButtonUp(0);
         }
 
-        public AxisInput GetMovementInput()
+        public void GetMovementInput(ref MovementData data)
         {
-            _movementInput.Horizontal = Input.GetAxis("Horizontal");
-            _movementInput.Vertical = Input.GetAxis("Vertical");
-
-            return _movementInput;
+            data.input.Horizontal = Input.GetAxis("Horizontal");
+            data.input.Vertical = Input.GetAxis("Vertical");
         }
-    }
-
-    public struct PressedInput
-    {
-        public bool IsHold;
-        public bool IsPressed;
-        public bool IsReleased;
-    }
-
-    public struct AxisInput
-    {
-        public float Horizontal;
-        public float Vertical;
     }
 }

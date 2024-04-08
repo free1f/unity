@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Freelf.Character.DataTransfer;
 using Freelf.Character.Interfaces;
 using Freelf.Item;
 using UnityEngine;
 
 namespace Freelf.Character
 {
-    public class CharacterInteract : CharacterComponent
+    public class CharacterInteract : CharacterComponent, IFixedTick, IAttached<InteractData>
     {
         public float rayDistance = 2f;
         public float rayRadius = 0.5f;
@@ -16,14 +17,14 @@ namespace Freelf.Character
         public LayerMask allowedLayers;
         private bool _isInteracting;
         private float _interactingCooldown = 0.5f;
-        public event Action<BaseItem> OnInteract;
+        private InteractData Data;
         
         private readonly List<BaseItem> foundItems = new List<BaseItem>(); // Esto puede cambiar a un objeto más genérico o abstracto
         public override void Init() {}
 
-        public void WaitToInteract(PressedInput input)
+        public void WaitToInteract()
         {
-            if (input.IsHold && _interactingCooldown <= 0)
+            if (Data.input.IsHold && _interactingCooldown <= 0)
             {
                 _isInteracting = true;
                 _interactingCooldown = 0.5f;
@@ -52,7 +53,7 @@ namespace Freelf.Character
             foundItems.Sort((a, b) => Vector3.Distance(a.transform.position, body.position).CompareTo(Vector3.Distance(b.transform.position, body.position)));
 
             // toolItems[0].Pickup();
-            OnInteract?.Invoke(foundItems[0]);
+            Data.OnInteract?.Invoke(foundItems[0]);
             foundItems.Clear();
         }
 
@@ -60,6 +61,16 @@ namespace Freelf.Character
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(body.position, rayRadius);
+        }
+
+        public void Attached(ref InteractData value)
+        {
+            Data = value;
+        }
+
+        public void FixedTick()
+        {
+            WaitToInteract();
         }
     }
 }
