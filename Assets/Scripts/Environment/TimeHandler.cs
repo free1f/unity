@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Freelf.Environment;
@@ -12,6 +13,11 @@ namespace Freelf.Environment
         private TimeOperator _timeOperator;
         public TMP_Text timeText;
         public Light sunLight;
+        public Light moonLight;
+        public float maxSunIntensity = 1f;
+        public float maxMoonIntensity = 0.5f;
+        public AnimationCurve lightIntensityCurve;
+
         void Start()
         {
             _timeOperator = new TimeOperator(timeSettings);
@@ -21,6 +27,7 @@ namespace Freelf.Environment
         {
             HandleTime();
             HandleSun();
+            UpdateLight();
         }
 
         private void HandleTime()
@@ -33,6 +40,13 @@ namespace Freelf.Environment
         {
             float sunRotation = _timeOperator.CalculateSunRotation();
             sunLight.transform.rotation = Quaternion.AngleAxis(sunRotation, Vector3.right);
+        }
+
+        private void UpdateLight()
+        {
+            var dotProduct = Vector3.Dot(sunLight.transform.forward, Vector3.down);
+            sunLight.intensity = Mathf.Lerp(0, maxSunIntensity, lightIntensityCurve.Evaluate(dotProduct));
+            moonLight.intensity = Mathf.Lerp(maxMoonIntensity, 0, lightIntensityCurve.Evaluate(dotProduct));
         }
     }
 }
