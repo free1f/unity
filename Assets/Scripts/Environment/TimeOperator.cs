@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Freelf.Environment
 {
@@ -28,6 +29,24 @@ namespace Freelf.Environment
         public bool IsDay()
         {
             return _currentTime.TimeOfDay >= _sunriseTime && _currentTime.TimeOfDay < _sunsetTime;
+        }
+
+        public float CalculateSunRotation()
+        {
+            bool isDayTime = IsDay();
+            float startAngle = isDayTime ? 0f : 180f;
+            TimeSpan startTime = isDayTime ? _sunriseTime : _sunsetTime;
+            TimeSpan endTime = isDayTime ? _sunsetTime : _sunriseTime;
+            TimeSpan totalTime = CalculateTimeDifference(startTime, endTime);
+            TimeSpan elapsedTime = CalculateTimeDifference(startTime, _currentTime.TimeOfDay);
+            double timePercentage = elapsedTime.TotalMinutes / totalTime.TotalMinutes;
+            return Mathf.Lerp(startAngle, startAngle + 180f, (float)timePercentage);
+        }
+
+        private TimeSpan CalculateTimeDifference(TimeSpan from, TimeSpan to)
+        {
+            TimeSpan difference = to - from;
+            return difference.TotalHours < 0 ? difference + TimeSpan.FromHours(24) : difference;
         }
     }
 }
