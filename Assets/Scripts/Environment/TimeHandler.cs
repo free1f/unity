@@ -17,6 +17,7 @@ namespace Freelf.Environment
         public float maxSunIntensity = 1f;
         public float maxMoonIntensity = 0.5f;
         public AnimationCurve lightIntensityCurve;
+        public Material skyboxMaterial;
 
         void Start()
         {
@@ -28,6 +29,7 @@ namespace Freelf.Environment
             HandleTime();
             HandleSun();
             UpdateLight();
+            UpdateSkybox();
         }
 
         private void HandleTime()
@@ -47,6 +49,13 @@ namespace Freelf.Environment
             var dotProduct = Vector3.Dot(sunLight.transform.forward, Vector3.down);
             sunLight.intensity = Mathf.Lerp(0, maxSunIntensity, lightIntensityCurve.Evaluate(dotProduct));
             moonLight.intensity = Mathf.Lerp(maxMoonIntensity, 0, lightIntensityCurve.Evaluate(dotProduct));
+        }
+
+        private void UpdateSkybox()
+        {
+            var dotProduct = Vector3.Dot(sunLight.transform.forward, Vector3.up);
+            float blend = Mathf.Lerp(0, 1, lightIntensityCurve.Evaluate(dotProduct));
+            skyboxMaterial.SetFloat("_Blend", blend);
         }
     }
 }
