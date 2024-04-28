@@ -14,9 +14,17 @@ namespace Freelf.Item
         public bool IsInUse { get; private set; }
         [field: SerializeField]
         public override DataItem Data { get; protected set;}
+
+        public int StaminaCost { get; private set; }
+
         public float rayRadius = 1f;
         public Vector3 rayOffset = Vector3.zero;
         
+        private void Start()
+        {
+            var toolData = (ToolDataItem) Data;
+            StaminaCost = toolData.staminaCost;
+        }
 
         public void Pickup()
         {
@@ -25,7 +33,7 @@ namespace Freelf.Item
             Debug.Log($"{Data.itemName} -> Picked up");
         }
 
-        public void Use()
+        public void Use(Action onSuccess = null)
         {
             Debug.Log($"{Data.itemName} -> Used");
             var toolData = (ToolDataItem) Data;
@@ -40,6 +48,7 @@ namespace Freelf.Item
                         if (matchedType == null) continue;
                         (element as IGather)?.Gather();
                         AudioHandler.instance.Play(toolData.actionData.sound, SoundCategory.SFX);
+                        onSuccess?.Invoke();
                     }
                 }
                 Debug.Log($"Using {Data.itemName} on {collider.name}");

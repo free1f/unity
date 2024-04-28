@@ -63,6 +63,7 @@ namespace Freelf.Character
             characterInput.GetUseItemInput(ref useItemData);
             characterInput.GetInteractInput(ref interactData);
             animationData.isMoving = movementData.direction.magnitude > 0;
+            useItemData.CurrentStamina = characterStat.CurrentStamina;  // Move to an event when Stamina changes
             
             foreach (var component in characterComponents)
             {
@@ -83,6 +84,7 @@ namespace Freelf.Character
             interactData.OnInteract += Interact;
             useItemData.OnActionItem += Action;
             inventoryHandler.OnEquip += Equip;
+            useItemData.OnUseStamina += characterStat.SetStamina;
         }
 
         private void OnDisable()
@@ -91,6 +93,7 @@ namespace Freelf.Character
             interactData.OnInteract -= Interact;
             useItemData.OnActionItem -= Action;
             inventoryHandler.OnEquip -= Equip;
+            useItemData.OnUseStamina -= characterStat.SetStamina;
         }
 
         private void Death()

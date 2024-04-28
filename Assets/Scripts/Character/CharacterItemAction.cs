@@ -25,8 +25,10 @@ namespace Freelf.Character
                 if(_attachedItem is IUse useItem)
                 {
                     if(useItem.IsInUse) return;
-                    // useItem.Use();
-                    Data.OnActionItem?.Invoke(_attachedItem, useItem.Use);
+                    if(useItem.StaminaCost > Data.CurrentStamina) return;
+                    Data.OnActionItem?.Invoke(_attachedItem, () => useItem.Use(() => {
+                        UseStamina(useItem);
+                    }));
                 }
             }
         }
@@ -44,6 +46,11 @@ namespace Freelf.Character
         public void Attached(ref BaseItem value)
         {
             _attachedItem = value;
+        }
+
+        private void UseStamina(IUse item)
+        {
+            Data.OnUseStamina?.Invoke(-item.StaminaCost);
         }
     }
 }
