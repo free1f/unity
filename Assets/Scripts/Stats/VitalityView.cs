@@ -13,7 +13,7 @@ namespace Freelf.Stats
         void Awake()
         {
             // Subscribtion to vitalityStat
-            vitalityStat.OnChanged += ChangeSlider;
+            vitalityStat.CurrentValue.AddListener(ChangeSlider);
         }
 
         private void ChangeSlider(int value)

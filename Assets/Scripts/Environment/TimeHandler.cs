@@ -18,8 +18,25 @@ namespace Freelf.Environment
         public float maxMoonIntensity = 0.5f;
         public AnimationCurve lightIntensityCurve;
         public Material skyboxMaterial;
+        public event Action OnSunrise { 
+            add => _timeOperator.OnSunrise += value; 
+            remove => _timeOperator.OnSunrise -= value; 
+        }
+        public event Action OnSunset { 
+            add => _timeOperator.OnSunset += value; 
+            remove => _timeOperator.OnSunset -= value; 
+        }
+        public event Action OnHourChange { 
+            add => _timeOperator.OnHourChange += value; 
+            remove => _timeOperator.OnHourChange -= value; 
+        }
+        public DateTime CurrentTime { 
+            get { 
+                return _timeOperator.CurrentTime; 
+            }
+        }
 
-        void Start()
+        void Awake()
         {
             _timeOperator = new TimeOperator(timeSettings);
         }

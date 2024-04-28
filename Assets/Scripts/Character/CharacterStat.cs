@@ -11,16 +11,34 @@ namespace Freelf.Character
     {
         public VitalityStat HealthStat;
         public VitalityStat StaminaStat;
-        private int _currentHealth;
-        private int _currentStamina;
+        public int CurrentStamina => StaminaStat.CurrentValue.Value;
         public event Action OnDeath;
 
         public override void Init()
         {
-            _currentHealth = HealthStat.MaxValue;
-            HealthStat.Change(_currentHealth);
-            _currentStamina = StaminaStat.MaxValue;
-            StaminaStat.Change(_currentStamina);
+            HealthStat.CurrentValue.AddListener(HealthChange);
+            HealthStat.Change(HealthStat.MaxValue);
+            StaminaStat.Change(StaminaStat.MaxValue);
+        }
+
+        private void HealthChange(int value)
+        {
+            if (value == HealthStat.MinValue)
+            {
+                OnDeath?.Invoke();
+            }
+        }
+
+        public void SetHealth(int value)
+        {
+            var result = HealthStat.CurrentValue.Value + value;
+            HealthStat.Change(result);
+        }
+
+        public void SetStamina(int value)
+        {
+            var result = StaminaStat.CurrentValue.Value + value;
+            StaminaStat.Change(result);
         }
     }
 }

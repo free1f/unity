@@ -10,5 +10,7 @@ namespace Freelf.Character.DataTransfer
     {
         public PressedInput input;
         public Action<BaseItem, Action> OnActionItem;
+        public int CurrentStamina;
+        public Action<int> OnUseStamina;
     }
 }
