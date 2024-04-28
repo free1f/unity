@@ -11,5 +11,6 @@ namespace Freelf.Item
         public ElementType[] compatibleElements; // TODO: Change to ScriptableObject
         public LayerMask allowedLayers;
         public int level;
+        public int staminaCost;
     }
 }

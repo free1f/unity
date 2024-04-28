@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Freelf.Character.DataTransfer;
 using Freelf.Character.Interfaces;
+using Freelf.Environment;
 using Freelf.Item;
 using UnityEngine;
 
@@ -46,6 +47,11 @@ namespace Freelf.Character
                 if (collider.TryGetComponent<BaseItem>(out var item))
                 {
                     foundItems.Add(item);
+                }
+                // Provisional
+                if (collider.TryGetComponent<Campfire>(out var campfire))
+                {
+                    campfire.StartFire();
                 }
             }
 
