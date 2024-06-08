@@ -12,6 +12,7 @@ namespace Freelf.Character
 {
     public class CharacterHandler : MonoBehaviour
     {
+        #region Global Variables
         [Header("Character Subsystems")]
         private List<CharacterComponent> characterComponents = new ();
         public CharacterInput characterInput;
@@ -25,16 +26,18 @@ namespace Freelf.Character
         private JumpData jumpData;
         private UseItemData useItemData;
         private InteractData interactData;
+        private DamageData damageData;
 
         public bool isDead = false;
-
-        void Awake()
+        #endregion
+        void Start()
         {
             animationData = new ();
             movementData = new ();
             jumpData = new ();
             useItemData = new ();
             interactData = new ();
+            damageData = new ();
             characterComponents.AddRange(GetComponents<CharacterComponent>());
             foreach (var component in characterComponents)
             {
@@ -43,8 +46,10 @@ namespace Freelf.Character
                 (component as IAttached<JumpData>)?.Attached(ref jumpData);
                 (component as IAttached<UseItemData>)?.Attached(ref useItemData);
                 (component as IAttached<InteractData>)?.Attached(ref interactData);
+                (component as IAttached<DamageData>)?.Attached(ref damageData);
                 component?.Init();
             }
+            Suscribe();
         }
         
         private void FixedUpdate()
@@ -78,7 +83,7 @@ namespace Freelf.Character
         }
         
         // Unity Methods for Subscriptions
-        private void OnEnable()
+        private void Suscribe()
         {
             characterStat.OnDeath += Death;
             interactData.OnInteract += Interact;
@@ -87,7 +92,7 @@ namespace Freelf.Character
             useItemData.OnUseStamina += characterStat.SetStamina;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             characterStat.OnDeath -= Death;
             interactData.OnInteract -= Interact;

@@ -21,10 +21,11 @@ namespace Freelf.Patterns
         {
             get => value;
             set
-            {
-                if (Equals(this.value, value)) return;
+            {   
+                // TODO: Find where it is being initialized with the maxValue -- cause it's weird xd
+                // if (Equals(this.value, value)) return;
                 this.value = value;
-                onValueChanged?.Invoke(this.value);
+                onValueChanged?.Invoke(this.value);     // Notify all listeners
             }
         }
 
