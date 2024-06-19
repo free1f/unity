@@ -9,7 +9,6 @@ namespace Freelf.Item
 {
     public class ToolItem : BaseItem, IUse, IPickup
     {
-        // private IInteract _interactable;
         public bool IsPickedUp{ get; private set; }
         public bool IsInUse { get; private set; }
         [field: SerializeField]
@@ -37,7 +36,9 @@ namespace Freelf.Item
         {
             Debug.Log($"{Data.itemName} -> Used");
             var toolData = (ToolDataItem) Data;
-            var colliders = Physics.OverlapSphere(transform.position + rayOffset, rayRadius, toolData.allowedLayers);
+            
+            var colliders = Physics.OverlapSphere(transform.TransformPoint(rayOffset), rayRadius, toolData.allowedLayers);
+            
             if(toolData == null) return;
             foreach (var collider in colliders)
             {
@@ -58,38 +59,12 @@ namespace Freelf.Item
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position + rayOffset, rayRadius);
+            Gizmos.DrawWireSphere(transform.TransformPoint(rayOffset), rayRadius);
         }
 
         public override void Info()
         {
             Debug.Log("Tool: " + Data.itemName);
         }
-
-        // protected override void OnTriggerEnter(Collider other)
-        // {
-        //     if (other.TryGetComponent(out IInteract interactable))
-        //     {
-        //         _interactable = interactable;
-        //     }
-        // }
-
-        // protected override void OnTriggerStay(Collider other)
-        // {
-        //     if (_interactable == null) return;
-        //     if (Input.GetKey(KeyCode.E) && !_isPickedUp)
-        //     {
-        //         _isPickedUp = true;
-        //         _interactable.Interact(gameObject);
-        //     }
-        // }
-
-        // protected override void OnTriggerExit(Collider other)
-        // {
-        //     if (other.TryGetComponent(out IInteract interactable))
-        //     {
-        //         _interactable = null;
-        //     }
-        // }
     }
 }

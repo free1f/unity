@@ -1,40 +1,96 @@
-using System.Collections;
-using System.Collections.Generic;
 using Freelf.Character.DataTransfer;
+using Freelf.Character.Interfaces;
 using UnityEngine;
 
 namespace Freelf.Character
 {
-    public class CharacterInput : MonoBehaviour
+    public class CharacterInput : CharacterComponent, 
+        IPreTick, 
+        IAttached<JumpData>, 
+        IAttached<InteractData>,
+        IAttached<UseItemData>,
+        IAttached<MovementData>,
+        IAttached<CameraData>
     {
         public KeyCode JumpKey = KeyCode.Space;
         public KeyCode InteractKey = KeyCode.E;
 
-        public void GetJumpInput(ref JumpData data)
+        private JumpData _jumpData;
+        private InteractData _interactData;
+        private UseItemData _useItemData;
+        private MovementData _movementData;
+        private CameraData _cameraData;
+
+        private void GetJumpInput()
         {
-            data.input.IsHold = Input.GetKey(JumpKey);
-            data.input.IsPressed = Input.GetKeyDown(JumpKey);
-            data.input.IsReleased = Input.GetKeyUp(JumpKey);
+            _jumpData.input.IsHold = Input.GetKey(JumpKey);
+            _jumpData.input.IsPressed = Input.GetKeyDown(JumpKey);
+            _jumpData.input.IsReleased = Input.GetKeyUp(JumpKey);
         }
 
-        public void GetInteractInput(ref InteractData data)
+        private void GetInteractInput()
         {
-            data.input.IsHold = Input.GetKey(InteractKey);
-            data.input.IsPressed = Input.GetKeyDown(InteractKey);
-            data.input.IsReleased = Input.GetKeyUp(InteractKey);
+            _interactData.input.IsHold = Input.GetKey(InteractKey);
+            _interactData.input.IsPressed = Input.GetKeyDown(InteractKey);
+            _interactData.input.IsReleased = Input.GetKeyUp(InteractKey);
         }
 
-        public void GetUseItemInput(ref UseItemData data)
+        private void GetUseItemInput()
         {
-            data.input.IsHold = Input.GetMouseButton(0);
-            data.input.IsPressed = Input.GetMouseButtonDown(0);
-            data.input.IsReleased = Input.GetMouseButtonUp(0);
+            _useItemData.input.IsHold = Input.GetMouseButton(0);
+            _useItemData.input.IsPressed = Input.GetMouseButtonDown(0);
+            _useItemData.input.IsReleased = Input.GetMouseButtonUp(0);
         }
 
-        public void GetMovementInput(ref MovementData data)
+        private void GetMovementInput()
         {
-            data.input.Horizontal = Input.GetAxis("Horizontal");
-            data.input.Vertical = Input.GetAxis("Vertical");
+            _movementData.input.Horizontal = Input.GetAxis("Horizontal");
+            _movementData.input.Vertical = Input.GetAxis("Vertical");
+        }
+
+        private void GetCameraInput()
+        {
+            _cameraData.HorizontalMouseInput = Input.GetAxis("Mouse X");
+            _cameraData.VerticalMouseInput = Input.GetAxis("Mouse Y");
+        }
+
+        public override void Init()
+        {
+            // pass
+        }
+
+        public void PreTick()
+        {
+            GetJumpInput();
+            GetInteractInput();
+            GetUseItemInput();
+            GetMovementInput();
+            GetCameraInput();
+        }
+
+        public void Attached(ref JumpData value)
+        {
+            _jumpData = value;
+        }
+
+        public void Attached(ref InteractData value)
+        {
+            _interactData = value;
+        }
+
+        public void Attached(ref UseItemData value)
+        {
+            _useItemData = value;
+        }
+
+        public void Attached(ref MovementData value)
+        {
+            _movementData = value;
+        }
+
+        public void Attached(ref CameraData value)
+        {
+            _cameraData = value;
         }
     }
 }

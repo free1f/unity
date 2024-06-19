@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Freelf.Item.Interfaces;
 using Freelf.Inventory;
@@ -13,24 +12,27 @@ namespace Freelf.Character
     public class CharacterHandler : MonoBehaviour
     {
         #region Global Variables
-        [Header("Character Subsystems")]
-        private List<CharacterComponent> characterComponents = new ();
-        public CharacterInput characterInput;
-        public CharacterCamera characterCamera;
-        public CharacterStat characterStat;
+        private readonly List<CharacterComponent> characterComponents = new ();
+        
         [Header("Character Extras")]
         public Transform handPoint;
         public InventoryHandler inventoryHandler;
+        public bool isDead = false;
+        
+        // Data Transfers
         private MovementData movementData;
         private AnimationData animationData;
         private JumpData jumpData;
         private UseItemData useItemData;
         private InteractData interactData;
         private DamageData damageData;
+        private CameraData cameraData;
+        private StatData statData;
 
-        public bool isDead = false;
+        private IStatUpdater statUpdater;
         #endregion
-        void Start()
+
+        private void Awake()
         {
             animationData = new ();
             movementData = new ();
@@ -38,7 +40,11 @@ namespace Freelf.Character
             useItemData = new ();
             interactData = new ();
             damageData = new ();
+            cameraData = new();
+            statData = new();
+            
             characterComponents.AddRange(GetComponents<CharacterComponent>());
+            
             foreach (var component in characterComponents)
             {
                 (component as IAttached<AnimationData>)?.Attached(ref animationData);
@@ -47,9 +53,23 @@ namespace Freelf.Character
                 (component as IAttached<UseItemData>)?.Attached(ref useItemData);
                 (component as IAttached<InteractData>)?.Attached(ref interactData);
                 (component as IAttached<DamageData>)?.Attached(ref damageData);
-                component?.Init();
+                (component as IAttached<CameraData>)?.Attached(ref cameraData);
+                (component as IAttached<StatData>)?.Attached(ref statData);
             }
-            Suscribe();
+
+            if (characterComponents.Find(component => component is IStatUpdater) is not IStatUpdater foundComponent)
+                return;
+            statUpdater = foundComponent;
+        }
+
+        private void Start()
+        {
+            foreach (var component in characterComponents)
+            {
+                component.Init();
+            }
+            
+            Subscribe();
         }
         
         private void FixedUpdate()
@@ -60,47 +80,58 @@ namespace Freelf.Character
             }
         }
 
-        void Update()
+        private void Update()
         {
             if (isDead) return;
-            characterInput.GetJumpInput(ref jumpData);
-            characterInput.GetMovementInput(ref movementData);
-            characterInput.GetUseItemInput(ref useItemData);
-            characterInput.GetInteractInput(ref interactData);
-            animationData.isMoving = movementData.direction.magnitude > 0;
-            useItemData.CurrentStamina = characterStat.CurrentStamina;  // Move to an event when Stamina changes
             
             foreach (var component in characterComponents)
             {
-                if ((component as IAnimationData)?.IsAnimationPaused ?? false) return;
+                (component as IPreTick)?.PreTick();
+            }
+            
+            animationData.isMoving = movementData.direction.magnitude > 0;
+            useItemData.CurrentStamina = statData.CurrentStamina;  // Move to an event when Stamina changes
+            
+            foreach (var component in characterComponents)
+            {
+                if (animationData.isAnimationPaused) return;
                 (component as ITick)?.Tick();
             }
         }
 
-        void LateUpdate()
+        private void LateUpdate()
         {
-            characterCamera.CalculateCameraRotation();
+            foreach (var component in characterComponents)
+            {
+                (component as ILateTick)?.LateTick();
+            }
         }
         
         // Unity Methods for Subscriptions
-        private void Suscribe()
+        private void Subscribe()
         {
-            characterStat.OnDeath += Death;
+            statData.OnEmptyHealth += Death;
             interactData.OnInteract += Interact;
             useItemData.OnActionItem += Action;
             inventoryHandler.OnEquip += Equip;
-            useItemData.OnUseStamina += characterStat.SetStamina;
+
+            if (statUpdater == null) return;
+            damageData.OnDamage += statUpdater.SetHealth;
+            useItemData.OnUseStamina += statUpdater.SetStamina;
         }
 
         private void OnDestroy()
         {
-            characterStat.OnDeath -= Death;
+            statData.OnEmptyHealth -= Death;
             interactData.OnInteract -= Interact;
             useItemData.OnActionItem -= Action;
             inventoryHandler.OnEquip -= Equip;
-            useItemData.OnUseStamina -= characterStat.SetStamina;
-        }
 
+            if (statUpdater == null) return;
+            damageData.OnDamage -= statUpdater.SetHealth;
+            useItemData.OnUseStamina -= statUpdater.SetStamina;
+        }
+        
         private void Death()
         {
             StartCoroutine(animationData.WaitForAnimation("Faint"));
@@ -109,12 +140,10 @@ namespace Freelf.Character
 
         private void Interact(BaseItem item)
         {
-            if (item.TryGetComponent<IPickup>(out var itemPickup))
-            {
-                StartCoroutine(animationData.WaitForAnimation("Picking up"));
-                itemPickup.Pickup();
-                inventoryHandler.AddItem(item, handPoint);
-            }
+            if (!item.TryGetComponent<IPickup>(out var itemPickup)) return;
+            StartCoroutine(animationData.WaitForAnimation("Picking up"));
+            itemPickup.Pickup();
+            inventoryHandler.AddItem(item, handPoint);
         }
 
         private void Equip(BaseItem item)
@@ -124,14 +153,13 @@ namespace Freelf.Character
             {
                 (component as IAttached<BaseItem>)?.Attached(ref item);
             }
-            
         }
 
         private void Action(BaseItem item, Action actionCallback)
         {
             Debug.Log("Action");
             if(item == null) return;
-            StartCoroutine(animationData.WaitForAnimation(item.Data.actionData.animationName, actionCallback));
+            StartCoroutine(animationData.WaitForAnimation(item.Data.actionData.animationName, item.Data.actionData.animationWaitTime, actionCallback));
         }
     }
 }

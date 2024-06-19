@@ -1,35 +1,38 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Freelf.Character.Interfaces;
 using Freelf.Stats;
 using Freelf.Character.DataTransfer;
-using UnityEngine;
 
 namespace Freelf.Character
 {
-    public class CharacterStat : CharacterComponent, IAttached<DamageData>
+    public class CharacterStat : CharacterComponent, IAttached<StatData>, IStatUpdater
     {
         public VitalityStat HealthStat;
         public VitalityStat StaminaStat;
-        public int CurrentStamina => StaminaStat.CurrentValue.Value;
-        public event Action OnDeath;
-        private DamageData _damageData;
 
+        private StatData _statData;
+        
+        public void Attached(ref StatData value)
+        {
+            _statData = value;
+        }
+        
         public override void Init()
         {
-            HealthStat.CurrentValue.AddListener(HealthChange);
+            HealthStat.CurrentValue.AddListener(CheckHealth);
+            StaminaStat.CurrentValue.AddListener(CheckStamina);
+            
             HealthStat.Change(HealthStat.MaxValue);
             StaminaStat.Change(StaminaStat.MaxValue);
-            _damageData.OnDamage += SetHealth;
+        }
+        
+        private void CheckHealth(int value)
+        {
+            _statData.CurrentHealth = value;
         }
 
-        private void HealthChange(int value)
+        private void CheckStamina(int value)
         {
-            if (value == HealthStat.MinValue)
-            {
-                OnDeath?.Invoke();
-            }
+            _statData.CurrentStamina = value;
         }
 
         public void SetHealth(int value)
@@ -42,11 +45,6 @@ namespace Freelf.Character
         {
             var result = StaminaStat.CurrentValue.Value + value;
             StaminaStat.Change(result);
-        }
-
-        public void Attached(ref DamageData value)
-        {
-            _damageData = value;
         }
     }
 }

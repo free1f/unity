@@ -50,6 +50,7 @@ namespace Freelf.Character
 
         private void UseStamina(IUse item)
         {
+            if (item.StaminaCost <= 0) return;
             Data.OnUseStamina?.Invoke(-item.StaminaCost);
         }
     }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.019175189, g: 0.01622469, b: 0.02709068, a: 1}
+  m_IndirectSpecularColor: {r: 0.019220812, g: 0.016323201, b: 0.027217697, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -551,7 +551,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 167486004}
-  m_LocalRotation: {x: 0.16018224, y: 0.000000004252742, z: -6.9012535e-10, w: 0.9870875}
+  m_LocalRotation: {x: 0.16018222, y: -0.000000025470568, z: 0.0000000041333035, w: 0.9870875}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -839,8 +839,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a8f46b47c66c3546b555b9420eac992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JumpKey: 102
+  JumpKey: 32
   InteractKey: 101
+--- !u!114 &345909369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345909355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53b7d62da42c746499d5486ba8ff1bbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &348349481
 GameObject:
   m_ObjectHideFlags: 0
@@ -1088,7 +1100,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 400890920}
-  m_LocalRotation: {x: 0.13165644, y: 0.000000008528303, z: -0.0000000011326654, w: 0.99129546}
+  m_LocalRotation: {x: 0.13165641, y: -0.0000000085283025, z: 0.0000000011326651, w: 0.99129546}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1299,6 +1311,14 @@ PrefabInstance:
       propertyPath: Data
       value: 
       objectReference: {fileID: 11400000, guid: b90d7043d39be9b4a89e6832049ed8bf, type: 2}
+    - target: {fileID: 3483236371294651384, guid: 2106565d8f3fe5b4e99755568307672a, type: 3}
+      propertyPath: rayRadius
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483236371294651384, guid: 2106565d8f3fe5b4e99755568307672a, type: 3}
+      propertyPath: rayOffset.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3483236371294651384, guid: 2106565d8f3fe5b4e99755568307672a, type: 3}
       propertyPath: <Data>k__BackingField
       value: 
@@ -2878,7 +2898,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.13165644, y: 0.0000000085283025, z: -0.0000000011326654, w: 0.9912954}
+  m_LocalRotation: {x: 0.13165644, y: -0.000000008528303, z: 0.0000000011326655, w: 0.9912954}
   m_LocalPosition: {x: 2.577601, y: 4, z: -5.9316473}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3187,6 +3207,65 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 061f7e5bec3b0f24dbb3d40585454f2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1536799991
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1536799992}
+  - component: {fileID: 1536799994}
+  - component: {fileID: 1536799993}
+  m_Layer: 0
+  m_Name: FireDamage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1536799992
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536799991}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 623178140}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1536799993
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536799991}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &1536799994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536799991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db9d80fad7b15b245a6793bc31de49b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
 --- !u!1 &1537875234
 GameObject:
   m_ObjectHideFlags: 0
@@ -3669,7 +3748,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1972280736}
-  m_LocalRotation: {x: 0.10321069, y: -0.000000008557246, z: 8.8794133e-10, w: 0.99465954}
+  m_LocalRotation: {x: 0.10321069, y: -0.000000008557245, z: 8.879412e-10, w: 0.99465954}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4441,19 +4520,23 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 1a04f70577d682f42a1c99aa7f907dad, type: 2}
     - target: {fileID: 3733400492789128102, guid: f8f95fd8a7a59d8499f3fd2cc5b435db, type: 3}
       propertyPath: rayRadius
-      value: 1.5
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3733400492789128102, guid: f8f95fd8a7a59d8499f3fd2cc5b435db, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1854429987}
     - target: {fileID: 3733400492789128102, guid: f8f95fd8a7a59d8499f3fd2cc5b435db, type: 3}
+      propertyPath: rayOffset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733400492789128102, guid: f8f95fd8a7a59d8499f3fd2cc5b435db, type: 3}
       propertyPath: rayOffset.y
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3733400492789128102, guid: f8f95fd8a7a59d8499f3fd2cc5b435db, type: 3}
       propertyPath: rayOffset.z
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3733400492789128102, guid: f8f95fd8a7a59d8499f3fd2cc5b435db, type: 3}
       propertyPath: <Data>k__BackingField

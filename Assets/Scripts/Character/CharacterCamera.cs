@@ -1,12 +1,11 @@
+using Freelf.Character.DataTransfer;
 using UnityEngine;
 using Freelf.Character.Interfaces;
 
 namespace Freelf.Character
 {
-    public class CharacterCamera : CharacterComponent
+    public class CharacterCamera : CharacterComponent, IAttached<CameraData>, ILateTick
     {
-        private float CinemachinePitch;
-        private float CinemachineYaw;
         public bool LockCameraPosition = false;
         public float CameraTopLimit = 90f;
         public float CameraBottomLimit = -90f;
@@ -14,36 +13,52 @@ namespace Freelf.Character
         public float CinemachineVerticalSpeed = 20f;
         public float CinemachineHorizontalSpeed = 20f;
         public GameObject CameraTarget;
+
+        private float _cinemachinePitch;
+        private float _cinemachineYaw;
+        
+        private CameraData cameraData;
+        
         public override void Init()
         {
-            CinemachineYaw = CameraTarget.transform.rotation.eulerAngles.y;
+            _cinemachineYaw = CameraTarget.transform.rotation.eulerAngles.y;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        public void CalculateCameraRotation()
+        private void CalculateCameraRotation()
         {
-            float mouseHorizontal = Input.GetAxis("Mouse X");
-            float mouseVertical = Input.GetAxis("Mouse Y");
-            float mouseMagnitude = Mathf.Sqrt(mouseHorizontal*mouseHorizontal + mouseVertical*mouseVertical);
+            var mouseHorizontal = cameraData.HorizontalMouseInput; //Input.GetAxis("Mouse X");
+            var mouseVertical = cameraData.VerticalMouseInput; //Input.GetAxis("Mouse Y");
+            var mouseMagnitude = Mathf.Sqrt(mouseHorizontal*mouseHorizontal + mouseVertical*mouseVertical);
         
             if(mouseMagnitude >= 0.01f && !LockCameraPosition)
             {
-                float deltaTime = Time.deltaTime;
-                CinemachinePitch += mouseVertical * CinemachineVerticalSpeed * deltaTime;
-                CinemachineYaw += mouseHorizontal * CinemachineHorizontalSpeed * deltaTime;
+                var deltaTime = Time.deltaTime;
+                _cinemachinePitch += mouseVertical * CinemachineVerticalSpeed * deltaTime;
+                _cinemachineYaw += mouseHorizontal * CinemachineHorizontalSpeed * deltaTime;
             }
 
-            CinemachinePitch = ClampCamera(CinemachinePitch, CameraBottomLimit, CameraTopLimit);
-            CinemachineYaw = ClampCamera(CinemachineYaw, float.MinValue, float.MaxValue);
-            CameraTarget.transform.rotation = Quaternion.Euler(CinemachinePitch + CinemachineOverride, CinemachineYaw, 0f);
+            _cinemachinePitch = ClampCamera(_cinemachinePitch, CameraBottomLimit, CameraTopLimit);
+            _cinemachineYaw = ClampCamera(_cinemachineYaw, float.MinValue, float.MaxValue);
+            CameraTarget.transform.rotation = Quaternion.Euler(_cinemachinePitch + CinemachineOverride, _cinemachineYaw, 0f);
         }
 
-        private float ClampCamera(float angle, float min, float max)
+        private static float ClampCamera(float angle, float min, float max)
         {
             if (angle < -360f) angle += 360f;
             if (angle > 360f) angle -= 360f;
             return Mathf.Clamp(angle, min, max);
+        }
+
+        public void Attached(ref CameraData value)
+        {
+            cameraData = value;
+        }
+
+        public void LateTick()
+        {
+            CalculateCameraRotation();
         }
     }
 }
