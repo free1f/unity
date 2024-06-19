@@ -19,6 +19,7 @@ namespace Freelf.Item
     [System.Serializable]
     public struct ItemActionData {
         public string animationName;
+        public float animationWaitTime;
         public AudioClip sound;
         public string message;
     }
