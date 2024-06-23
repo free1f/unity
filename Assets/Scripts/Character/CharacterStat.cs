@@ -1,32 +1,38 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Freelf.Character.Interfaces;
 using Freelf.Stats;
-using UnityEngine;
+using Freelf.Character.DataTransfer;
 
 namespace Freelf.Character
 {
-    public class CharacterStat : CharacterComponent
+    public class CharacterStat : CharacterComponent, IAttached<StatData>, IStatUpdater
     {
         public VitalityStat HealthStat;
         public VitalityStat StaminaStat;
-        public int CurrentStamina => StaminaStat.CurrentValue.Value;
-        public event Action OnDeath;
 
+        private StatData _statData;
+        
+        public void Attached(ref StatData value)
+        {
+            _statData = value;
+        }
+        
         public override void Init()
         {
-            HealthStat.CurrentValue.AddListener(HealthChange);
+            HealthStat.CurrentValue.AddListener(CheckHealth);
+            StaminaStat.CurrentValue.AddListener(CheckStamina);
+            
             HealthStat.Change(HealthStat.MaxValue);
             StaminaStat.Change(StaminaStat.MaxValue);
         }
-
-        private void HealthChange(int value)
+        
+        private void CheckHealth(int value)
         {
-            if (value == HealthStat.MinValue)
-            {
-                OnDeath?.Invoke();
-            }
+            _statData.CurrentHealth = value;
+        }
+
+        private void CheckStamina(int value)
+        {
+            _statData.CurrentStamina = value;
         }
 
         public void SetHealth(int value)

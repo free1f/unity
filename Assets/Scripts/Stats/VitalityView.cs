@@ -12,13 +12,15 @@ namespace Freelf.Stats
         
         void Awake()
         {
+            Slider.maxValue = vitalityStat.MaxValue;
+            Slider.minValue = vitalityStat.MinValue;
             // Subscribtion to vitalityStat
             vitalityStat.CurrentValue.AddListener(ChangeSlider);
         }
 
         private void ChangeSlider(int value)
         {
-            Slider.value = (float)value/(float)vitalityStat.MaxValue;
+            Slider.value = value;
         }
     }
 }
