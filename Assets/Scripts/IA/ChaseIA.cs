@@ -9,11 +9,15 @@ namespace Freelf.IA
     {
         public IdleState idleState;
         public ChaseState chaseState;
+        public AttackState attackState;
+        public AvoidState avoidState;
 
         void Start()
         {
             idleState.Machine = this;
             chaseState.Machine = this;
+            attackState.Machine = this;
+            avoidState.Machine = this;
             SetDefaultState(idleState);
         }
 

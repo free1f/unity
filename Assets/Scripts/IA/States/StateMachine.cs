@@ -9,6 +9,19 @@ namespace Freelf.IA.States
         private IState _currentState;
         private IState _previousState;
         private IState _defaultState;
+        private MeshRenderer _meshRenderer;
+        private Material _material;
+
+        public void Awake()
+        {
+            _meshRenderer = GetComponent<MeshRenderer>();
+            _material = _meshRenderer.material;
+        }
+
+        public void DebugMaterialColor(Color color)
+        {
+            _material.color = color;
+        }
 
         public void ChangeState(IState newState)
         {
@@ -41,6 +54,14 @@ namespace Freelf.IA.States
             if (_defaultState != null)
             {
                 ChangeState(_defaultState);
+            }
+        }
+
+        public void ForcePreviousState()
+        {
+            if (_previousState != null)
+            {
+                ChangeState(_previousState);
             }
         }
     }
