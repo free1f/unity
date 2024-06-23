@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: IAHealthStat
   m_EditorClassIdentifier: 
   MinValue: 0
-  MaxValue: 0
+  MaxValue: 1000
   CurrentValue:
-    value: 0
+    value: 300
     onValueChanged:
       m_PersistentCalls:
         m_Calls: []
