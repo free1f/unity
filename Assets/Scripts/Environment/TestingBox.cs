@@ -26,6 +26,7 @@ namespace Freelf.Environment
         }
         public void TakeDamage(int damage)
         {
+            damage = Mathf.Abs(damage);
             currentHealth -= damage;
             healthText.text = currentHealth.ToString();
             if (currentHealth <= 0)

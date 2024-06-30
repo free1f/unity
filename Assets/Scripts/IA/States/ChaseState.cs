@@ -41,6 +41,8 @@ namespace Freelf.IA.States
             else if (Vector3.Distance(transform.position, target.position) <= attackDistance)
             {
                 Debug.Log("Change to AttackState");
+                agent.SetDestination(target.position);
+                agent.stoppingDistance = attackDistance;
                 Machine.ChangeState(attackState);
             }
             else

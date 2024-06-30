@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b41cb97463d809d4691b147479ecb2b0, type: 3}
+  m_Name: SwordWeapon
+  m_EditorClassIdentifier: 
+  itemName: Sword
+  description: Sword tool
+  icon: {fileID: 0}
+  weight: 0
+  cost: 0
+  isStackable: 0
+  maxStack: 0
+  actionData:
+    animationName: Cut
+    animationWaitTime: 1
+    sound: {fileID: 8300000, guid: 4b84670865e85a643b1f8a6c2f930375, type: 3}
+    message: 
+  damage: 200
+  allowedLayers:
+    serializedVersion: 2
+    m_Bits: 1
+  staminaCost: 5

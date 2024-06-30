@@ -37,9 +37,9 @@ namespace Freelf.Item
             Debug.Log($"{Data.itemName} -> Used");
             var toolData = (ToolDataItem) Data;
             
+            if(toolData == null) return;
             var colliders = Physics.OverlapSphere(transform.TransformPoint(rayOffset), rayRadius, toolData.allowedLayers);
             
-            if(toolData == null) return;
             foreach (var collider in colliders)
             {
                 if (collider.TryGetComponent(out BaseElement element))

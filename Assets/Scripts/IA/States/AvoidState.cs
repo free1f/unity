@@ -12,6 +12,8 @@ namespace Freelf.IA.States
         public IAStats stats;
         public Transform target;
         public NavMeshAgent agent;
+        [Range(0, 1)]
+        public float maxPercentageToAvoid = 0.5f;
 
         public void Enter()
         {
@@ -20,20 +22,17 @@ namespace Freelf.IA.States
 
         public void Execute()
         {
-            if (stats.healthStat.CurrentValue.Value <= (int)(stats.healthStat.MaxValue * 0.5f))
+            if (stats.healthStat.CurrentValue.Value <= (int)(stats.healthStat.MaxValue * maxPercentageToAvoid))
             {
-                var forwardTarget = target.TransformDirection(Vector3.forward);
-                var distance = Vector3.Normalize(forwardTarget - transform.position);
-                if (Vector3.Dot(forwardTarget, distance) < 0)
+                Debug.Log("Avoiding");
+                // var forwardTarget = target.TransformDirection(Vector3.forward);
+                var forwardTarget = target.position - transform.position;
+                var avoidDirection = transform.position + forwardTarget.normalized * -3f;
+                agent.SetDestination(avoidDirection);
+                if (Vector3.Dot(forwardTarget, transform.forward) < 0)
                 {
                     // Heal itself or w/e
                     // Machine.ForceDefaultState();
-                }
-                else
-                {
-                    // Create a new direction to avoid the target
-                    var avoidDirection = transform.position + distance;
-                    agent.SetDestination(avoidDirection);
                 }
             }
             else
