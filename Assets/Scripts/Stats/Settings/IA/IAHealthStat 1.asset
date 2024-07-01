@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 417d37d60a740b047800a7e718c73afd, type: 3}
-  m_Name: IAHealthStat
+  m_Name: IAHealthStat 1
   m_EditorClassIdentifier: 
   MinValue: 0
   MaxValue: 1000
   CurrentValue:
-    value: -1000
+    value: -210
     onValueChanged:
       m_PersistentCalls:
         m_Calls: []

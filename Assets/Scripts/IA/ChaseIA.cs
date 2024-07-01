@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Freelf.IA.States;
 using System;
+using Freelf.Character.Interfaces;
 
 namespace Freelf.IA 
 { 
-    public class ChaseIA : StateMachine
+    public class ChaseIA : StateMachine, IDamageable
     {
         public IdleState idleState;
         public ChaseState chaseState;
@@ -55,6 +56,12 @@ namespace Freelf.IA
         public void OnDisable()
         {
             stats.healthStat.CurrentValue.RemoveListener(OnHealthChanged);
+        }
+
+        public void TakeDamage(int damage)
+        {
+            damage = Mathf.Abs(damage);
+            stats.healthStat.CurrentValue.Value -= damage;
         }
     }
 }
